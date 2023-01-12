@@ -10,7 +10,7 @@ from sqlalchemy import BigInteger, CheckConstraint, Column, DateTime, ForeignKey
 from sqlalchemy import DateTime, ForeignKey
 from sqlalchemy.dialects.mysql import TINYINT
 from sqlalchemy.orm import relationship
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 from lib import exceptions, logger
 from lib.db.engine import TableModel

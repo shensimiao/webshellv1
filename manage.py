@@ -20,7 +20,7 @@ def main():
 
 
 class Drvice(models.Model):
-    # __table_args__ = {'comment': '存放路由器配置'}
+
     name = models.IntegerField('id',primary_key=True, auto_created=True)
     # drvice_name = models.CharField(max_length=100)
     # _drvice_passwd = models.CharField(max_length=100)
@@ -37,20 +37,20 @@ class Drvice(models.Model):
         return self.name
 
 
-class Script(models.Model):
-    __table_args__ = {'comment': '存放路由器脚本'}
-    id = models.IntegerField(primary_key=True, auto_created=True)
-    # drvice_type = models.ForeignKey(Drvice, on_delete=models.DO_NOTHING, verbose_name='drvice_type', blank=True)
-    script_name = models.CharField(max_length=100)
-    script_reson = models.CharField(max_length=10000)
-    last_updated = models.DateTimeField
-
-    class Meta:
-        verbose_name = 'drvice_script'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.script_reson
+# class Script(models.Model):
+#     __table_args__ = {'comment': '存放路由器脚本'}
+#     id = models.IntegerField(primary_key=True, auto_created=True)
+#     # drvice_type = models.ForeignKey(Drvice, on_delete=models.DO_NOTHING, verbose_name='drvice_type', blank=True)
+#     script_name = models.CharField(max_length=100)
+#     script_reson = models.CharField(max_length=10000)
+#     last_updated = models.DateTimeField
+#
+#     class Meta:
+#         verbose_name = 'drvice_script'
+#         verbose_name_plural = verbose_name
+#
+#     def __str__(self):
+#         return self.script_reson
 
 
 if __name__ == '__main__':
