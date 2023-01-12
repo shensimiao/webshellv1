@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from lib.sql import ScriptOrm, DrviceOrm
+
 import json
 
 
@@ -37,21 +37,21 @@ def test(request):
     return render(request, 'test.html', context)
 
 
-def search(request):
-    ss = request.POST.get('search')  # 获取搜索的关键词
-    list = Article.objects.filter(title__icontains=ss)  # 获取到搜索关键词通过标题进行匹配
-    remen = Article.objects.filter(tui__id=2)[:6]
-    allcategory = Category.objects.all()
-    page = request.POST.get('page')
-    tags = Tag.objects.all()
-    paginator = Paginator(list, 10)
-    try:
-        list = paginator.page(page)  # 获取当前页码的记录
-    except PageNotAnInteger:
-        list = paginator.page(1)  # 如果用户输入的页码不是整数时,显示第1页的内容
-    except EmptyPage:
-        list = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
-    return render(request, 'search.html', locals())
+# def search(request):
+#     ss = request.POST.get('search')  # 获取搜索的关键词
+#     list = Article.objects.filter(title__icontains=ss)  # 获取到搜索关键词通过标题进行匹配
+#     remen = Article.objects.filter(tui__id=2)[:6]
+#     allcategory = Category.objects.all()
+#     page = request.POST.get('page')
+#     tags = Tag.objects.all()
+#     paginator = Paginator(list, 10)
+#     try:
+#         list = paginator.page(page)  # 获取当前页码的记录
+#     except PageNotAnInteger:
+#         list = paginator.page(1)  # 如果用户输入的页码不是整数时,显示第1页的内容
+#     except EmptyPage:
+#         list = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
+#     return render(request, 'search.html', locals())
 
 # def script_resion(request):
 #     context = {}
