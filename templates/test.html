@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Document</title>
+
+</head>
+<body >
+<button id="Button2" value=" 测试" onclick="addInput()">test</button> <br>
+{{ script }}
+</body>
+<script type="text/javascript">
+    {#let data ={{ drvice }};#}
+    var listq = "{{ hello }}"
+    var lis = {{ drvice }}
+    var li = {{ drvice_num }}
+    {#var data = {{ script }};#}
+    var num = 10;
+function addInput(){
+    for (var i = 0;i<num;i++){
+        var o = document.createElement('button');
+        var t = document.createTextNode('type');
+        o.type = 'button';
+        o.appendChild(t);
+        document.body.appendChild(o);
+        var myhref = document.createElement('a');
+        myhref.id = 'you';
+        myhref.href = '192.168.100.22:8080';
+        var test = document.createTextNode('00014');
+        myhref.appendChild(test);
+        document.body.appendChild(myhref);
+        myhref.onclick = function (){alert(this.id)}
+    }
+    num = null;
+    }
+
+</script>
+</html>
