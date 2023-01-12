@@ -1,7 +1,11 @@
+import os
+
+import django
 from django.shortcuts import render
 
 import json
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "webshell.settings")  # project_name指项目名
+django.setup()
 
 def index(request):
     context = {}
