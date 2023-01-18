@@ -1,11 +1,16 @@
 import os
 
 import django
-from django.shortcuts import render
-
+from django.shortcuts import render, HttpResponse
+from requests import request
+from lib.action import Action
+from blog import models
 import json
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "webshell.settings")  # project_name指项目名
 django.setup()
+to_action = Action()
+
 
 def index(request):
     context = {}
@@ -18,8 +23,26 @@ def index(request):
     context['hello'] = 'Hello World!'
     # context['drvice'] = DrviceOrm.all()
     # context['script'] = ScriptOrm.all()
-    context['drvice'] = ['001', '002', '003']
-    context['script'] = [{'id': 10, 'type': 20, 'res': 30}, {'id': 11, 'type': 12, 'res': 31}]
+    data = {}
+    for i in models.Drvice.objects.all():
+        if i.drvice_type not in data:
+            data['{}'.format(i.drvice_type)] = []
+            data['{}'.format(i.drvice_type)].append(i.drvice_name)
+            continue
+        if i.drvice_type in data:
+            data['{}'.format(i.drvice_type)].append(i.drvice_name)
+    data1 = {}
+    for i in models.Script.objects.all():
+        if i.drvice_type not in data1:
+            data1['{}'.format(i.drvice_type)] = []
+            data1['{}'.format(i.drvice_type)].append(i.script_name)
+            continue
+        if i.drvice_type in data1:
+            data1['{}'.format(i.drvice_type)].append(i.script_name)
+    context['drvice'] = data
+    print(data)
+    print(data1)
+    context['script'] = data1
     return render(request, 'index.html', context)
 
 
@@ -32,13 +55,20 @@ def test(request):
         # 1.4 获取
         print(request.POST.getlist('ip'))
     context['hello'] = "'Hello World!'"
-    # context['drvice'] = DrviceOrm.all()
+    context['drvice'] = models.Drvice.objects.count('HK')
     # context['script'] = ScriptOrm.all()
     list1 = [{'id': 1, 'type': 2, 'c': 3}, {'id': 11, 'type': 12, 'c': 31}]
     context['drvice_num'] = len(list1)
     context['drvice'] = json.dumps(list1, indent=2)
     context['script'] = [{'id': 10, 'type': 20, 'res': 30}, {'id': 11, 'type': 12, 'res': 31}]
     return render(request, 'test.html', context)
+
+
+def drvice_add(requset):
+    models.Drvice.objects.create(drvice_name='hkd1-dev6', drvice_host='192.168.11.2', drvice_type='HK',
+                                 drvice_port='22')
+    all = models.Drvice.objects.filter(drvice_type='HK')
+    return HttpResponse(all)
 
 
 # def search(request):
@@ -57,6 +87,34 @@ def test(request):
 #         list = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 #     return render(request, 'search.html', locals())
 
-# def script_resion(request):
-#     context = {}
-#
+def to_data(request):
+    data = request.POST.get('data')
+    data1 = data['drvice']
+    data2 = data['srcipt']
+    reson = []
+    passwd = []
+    login = []
+    user = []
+    port = []
+    for i in data2:
+        reson.append(models.Script.objects.get(script_name='{}'.format(i)).script_reson)
+    for i in data1:
+        a = models.Drvice.objects.get(drvice_name='{}'.format(i))
+        login.append(a.drvice_host)
+        user.append(a.drvice_user)
+        port.append(a.drvice_port)
+        if models.Setting.objects.get(setting_name='is_key').setting_value == 0:
+            passwd.append(a.drvice_passwd)
+
+    ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd,
+                                    port=port, script_reson=reson)
+    return render(request, 'index.html', ret_data)
+
+
+def to_reson(request):
+    data = request.POST.get('srcipt')
+    reson = []
+    for i in data['name']:
+        reson.append(models.Script.objects.get(script_name='{}'.format(i)).script_reson)
+    return render(request, 'index.html', reson)
+

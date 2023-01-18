@@ -103,10 +103,10 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-          {% for name in  drvice %}
+          {% for key in  drvice %}
         <button type="button" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" class="nav-link active"  >
           <svg class="bi me-2" width="16" height="16"></svg>
-            {{ name }}
+            {{ key }}
         </button>
           {% endfor %}
       </li>
@@ -120,7 +120,7 @@
   <div class="offcanvas-body">
     <div class="dropdown mt-3">
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-          {{ hello }}
+          {{ drvice }}
       </button>
     </div>
   </div>
