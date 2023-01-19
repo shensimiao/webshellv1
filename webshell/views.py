@@ -14,12 +14,12 @@ to_action = Action()
 
 def index(request):
     context = {}
-    print(request.method)
-    if request.method == 'POST':
-        # 1.3 获取post除文件外所有数据 -->dict
-        print(request.POST)
-        # 1.4 获取
-        print(request.POST.getlist('ip'))
+    # print(request.method)
+    # if request.method == 'POST':
+    #     # 1.3 获取post除文件外所有数据 -->dict
+    #     print(request.POST)
+    #     # 1.4 获取
+    #     print(request.POST.getlist('ip'))
     context['hello'] = 'Hello World!'
     # context['drvice'] = DrviceOrm.all()
     # context['script'] = ScriptOrm.all()
@@ -64,11 +64,11 @@ def test(request):
     return render(request, 'test.html', context)
 
 
-def drvice_add(requset):
-    models.Drvice.objects.create(drvice_name='hkd1-dev6', drvice_host='192.168.11.2', drvice_type='HK',
-                                 drvice_port='22')
-    all = models.Drvice.objects.filter(drvice_type='HK')
-    return HttpResponse(all)
+# def drvice_add(requset):
+#     models.Drvice.objects.create(drvice_name='hkd1-dev6', drvice_host='192.168.11.2', drvice_type='HK',
+#                                  drvice_port='22')
+#     all = models.Drvice.objects.filter(drvice_type='HK')
+#     return HttpResponse(all)
 
 
 # def search(request):
@@ -88,6 +88,7 @@ def drvice_add(requset):
 #     return render(request, 'search.html', locals())
 
 def to_data(request):
+    context = {}
     data = request.POST.get('data')
     data1 = data['drvice']
     data2 = data['srcipt']
@@ -108,7 +109,8 @@ def to_data(request):
 
     ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd,
                                     port=port, script_reson=reson)
-    return render(request, 'index.html', ret_data)
+    context['ret_data'] = ret_data
+    return render(request, 'index.html', context)
 
 
 def to_reson(request):
@@ -116,5 +118,5 @@ def to_reson(request):
     reson = []
     for i in data['name']:
         reson.append(models.Script.objects.get(script_name='{}'.format(i)).script_reson)
-    return render(request, 'index.html', reson)
+    return render(request, 'index.html', locals())
 

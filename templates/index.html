@@ -119,9 +119,11 @@
   </div>
   <div class="offcanvas-body">
     <div class="dropdown mt-3">
+    {% for key,values in script.items %}
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-          {{ drvice }}
+          {{ key }}:{{ values }}
       </button>
+    {%  endfor %}
     </div>
   </div>
 </div>
