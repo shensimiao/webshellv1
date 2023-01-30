@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+
 <head>
   <title>Bootstrap5 实例</title>
   <meta charset="utf-8">
@@ -144,12 +144,14 @@
   <div class="b-example-divider"></div>
         <div class="row g-3">
   <div class="col">
-    <input type="text" class="form-control" name="ip" placeholder="Prefix" aria-label="Ip-Prefix">
+    <input type="text" class="form-control" name="ip" placeholder="ip" aria-label="Ip-Prefix">
   </div>
   <div class="col">
-    <input type="text" class="form-control" name="mark" placeholder="NetMark" aria-label="NetMark">
+    <input type="text" class="form-control" name="mark" placeholder="network" aria-label="NetMark">
       <input type="submit" class="btn btn-success btn-block" >
   </div>
+            <a>{{ ret_data1 }} }</a>
+            <a>{{ ret_data2 }} }</a>
 </div>
 <div class="nav-link active" onload="addInput()"></div>
 </main>
@@ -242,7 +244,9 @@ document.body.appendChild(o);
 o = null;
 }
   </script>
+</form>
 </body>
+
 </html>
 {#    <div class="row g-3">#}
 {#  <div class="col">#}

@@ -24,4 +24,5 @@ urlpatterns = [
     # path('add/', views.drvice_add),
     path('to_data/', views.to_data),
     path('to_reson/', views.to_reson),
+    path('clean_all/', views.clean_all),
 ]

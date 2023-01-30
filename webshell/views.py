@@ -55,7 +55,6 @@ def test(request):
         # 1.4 获取
         print(request.POST.getlist('ip'))
     context['hello'] = "'Hello World!'"
-    context['drvice'] = models.Drvice.objects.count('HK')
     # context['script'] = ScriptOrm.all()
     list1 = [{'id': 1, 'type': 2, 'c': 3}, {'id': 11, 'type': 12, 'c': 31}]
     context['drvice_num'] = len(list1)
@@ -89,10 +88,13 @@ def test(request):
 
 def to_data(request):
     context = {}
-    data = request.POST.get('data')
+    # data = request.POST.get('data')
+    data = json.loads(request.body.decode())
+    ip = data['ip']
+    network = data['network']
     data1 = data['drvice']
     data2 = data['srcipt']
-    reson = []
+    reson = ['conf t']
     passwd = []
     login = []
     user = []
@@ -104,19 +106,41 @@ def to_data(request):
         login.append(a.drvice_host)
         user.append(a.drvice_user)
         port.append(a.drvice_port)
-        if models.Setting.objects.get(setting_name='is_key').setting_value == 0:
+        if int(models.Setting.objects.get(setting_name='is_key').setting_value) == 0:
             passwd.append(a.drvice_passwd)
-
+    # print(reson)
+    # print(login)
+    # print(user)
+    # print(port)
+    # print(passwd)
     ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd,
                                     port=port, script_reson=reson)
-    context['ret_data'] = ret_data
+    print('给前端', ret_data)
+    context['ret_data1'] = ret_data
     return render(request, 'index.html', context)
 
 
 def to_reson(request):
-    data = request.POST.get('srcipt')
-    reson = []
-    for i in data['name']:
-        reson.append(models.Script.objects.get(script_name='{}'.format(i)).script_reson)
-    return render(request, 'index.html', locals())
+    print(request.method)
+    # print(request.GET)
+    # data = request.POST.get('srcipt')
+    data = json.loads(request.body.decode())
+    # print('返回', data)
+    # data = dict(data)
+    ip = data['ip']
+    network = data['network']
+    context = {'ret_data2': ''}
+    # print(data['srcipt']['name'])
+    for i in data['srcipt']['name']:
+        # print(i)
+        context['ret_data2'] = context['ret_data2'] + '\n' + models.Script.objects.get(
+            script_name='{}'.format(i)).script_reson.replace('<ip>', ip).replace('<network>', network)
+    # print(context['ret_data'])
+    return render(request, 'index.html', context)
 
+
+def clean_all(request):
+    to_action.clean_data()
+    context = {"ret_data1": '', "ret_data2": '', }
+    # return render(request, 'index.html', context)
+    return render(request, 'index.html', context)
