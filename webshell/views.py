@@ -86,21 +86,63 @@ def test(request):
 #         list = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 #     return render(request, 'search.html', locals())
 
+
+def to_reson(request):
+    print(request.method)
+    # print(request.GET)
+    # data = request.POST.get('srcipt')
+    data = json.loads(request.body.decode())
+    # print('返回', data)
+    # data = dict(data)
+    ip = data['ip']
+    network = data['network']
+    context = {}
+    context['ret_data2'] = ['conf t']
+    # print(data['srcipt']['name'])
+    for i in data['srcipt']['name']:
+        # print(i)
+        context['ret_data2'].append(models.Script.objects.get(
+            script_name='{}'.format(i)).script_reson.replace('<ip>', ip).replace('<network>', network))
+        # context['ret_data2'] = context['ret_data2'] + models.Script.objects.get(
+        #     script_name='{}'.format(i))
+    print(context['ret_data2'])
+    to_action.limit_data = context['ret_data2']
+    return render(request, 'index.html', context)
+
+
+def clean_all(request):
+    to_action.clean_data()
+    context = {"ret_data1": '', "ret_data2": '', }
+    # return render(request, 'index.html', context)
+    return render(request, 'index.html', context)
+
+
+def update_reson(request):
+    context = {}
+    data = json.loads(request.body.decode())
+    to_action.limit_data = data['srcipt']
+    context['ret_data2'] = data['srcipt']
+    return render(request, 'index.html', context)
+
+
 def to_data(request):
     context = {}
     # data = request.POST.get('data')
     data = json.loads(request.body.decode())
-    ip = data['ip']
-    network = data['network']
+    # ip = data['ip']
+    # network = data['network']
     data1 = data['drvice']
-    data2 = data['srcipt']
-    reson = ['conf t']
+    # data2 = data['srcipt']
+    # reson = ['conf t']
     passwd = []
     login = []
     user = []
     port = []
-    for i in data2:
-        reson.append(models.Script.objects.get(script_name='{}'.format(i)).script_reson)
+    # for i in data2:
+    #     reson.append(
+    #         models.Script.objects.get(script_name='{}'.format(i)).script_reson.replace('<ip>', ip).replace('<network>',
+    #                                                                                                        network))
+    reson = to_action.limit_data
     for i in data1:
         a = models.Drvice.objects.get(drvice_name='{}'.format(i))
         login.append(a.drvice_host)
@@ -115,32 +157,6 @@ def to_data(request):
     # print(passwd)
     ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd,
                                     port=port, script_reson=reson)
-    print('给前端', ret_data)
+    # print('给前端', ret_data)
     context['ret_data1'] = ret_data
-    return render(request, 'index.html', context)
-
-
-def to_reson(request):
-    print(request.method)
-    # print(request.GET)
-    # data = request.POST.get('srcipt')
-    data = json.loads(request.body.decode())
-    # print('返回', data)
-    # data = dict(data)
-    ip = data['ip']
-    network = data['network']
-    context = {'ret_data2': ''}
-    # print(data['srcipt']['name'])
-    for i in data['srcipt']['name']:
-        # print(i)
-        context['ret_data2'] = context['ret_data2'] + '\n' + models.Script.objects.get(
-            script_name='{}'.format(i)).script_reson.replace('<ip>', ip).replace('<network>', network)
-    # print(context['ret_data'])
-    return render(request, 'index.html', context)
-
-
-def clean_all(request):
-    to_action.clean_data()
-    context = {"ret_data1": '', "ret_data2": '', }
-    # return render(request, 'index.html', context)
     return render(request, 'index.html', context)

@@ -6,6 +6,7 @@ class Action:
     def __init__(self):
         self.ret = []
         self.is_key = int(models.Setting.objects.get(setting_name='is_key').setting_value)
+        self.limit_data = None
 
     def action_ssh(self, login: list, user: list, port: list, script_reson: list, passwd: list = None):
         if self.is_key == 1:
@@ -15,7 +16,7 @@ class Action:
         if self.is_key == 0:
             for i in range(0, len(login)):
                 ret = self.action_ssh_passwd(login=login[i], user=user[i],
-                                       port=port[i], cmds=script_reson, passwd=passwd[i])
+                                             port=port[i], cmds=script_reson, passwd=passwd[i])
                 return ret
 
     def action_ssh_key(self, login, user, cmds, port: int = 22):
@@ -43,7 +44,7 @@ class Action:
 
     def clean_data(self):
         self.ret = None
-        return self.ret
+        self.limit_data = None
 
     def action_ssh_passwd(self, login, user, passwd, cmds, port: int = 22):
         ssh = paramiko.SSHClient()
@@ -59,5 +60,5 @@ class Action:
             print(err)
         except TimeoutError as err:
             print(err)
-        # print(self.ret)
+        print(self.ret)
         return self.ret
