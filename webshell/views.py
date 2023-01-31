@@ -107,14 +107,14 @@ def to_reson(request):
         #     script_name='{}'.format(i))
     print(context['ret_data2'])
     to_action.limit_data = context['ret_data2']
-    return render(request, 'index.html', context)
+    return render(request, 'index.html', context, status=200)
 
 
 def clean_all(request):
     to_action.clean_data()
     context = {"ret_data1": '', "ret_data2": '', }
     # return render(request, 'index.html', context)
-    return render(request, 'index.html', context)
+    return render(request, 'index.html', context, status=200)
 
 
 def update_reson(request):
@@ -122,7 +122,7 @@ def update_reson(request):
     data = json.loads(request.body.decode())
     to_action.limit_data = data['srcipt']
     context['ret_data2'] = data['srcipt']
-    return render(request, 'index.html', context)
+    return render(request, 'index.html', context, status=200)
 
 
 def to_data(request):
@@ -159,4 +159,4 @@ def to_data(request):
                                     port=port, script_reson=reson)
     # print('给前端', ret_data)
     context['ret_data1'] = ret_data
-    return render(request, 'index.html', context)
+    return render(request, 'index.html', context, status=200)
