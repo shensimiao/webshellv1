@@ -27,18 +27,18 @@ def index(request):
     for i in models.Drvice.objects.all():
         if i.drvice_type not in data:
             data['{}'.format(i.drvice_type)] = []
-            data['{}'.format(i.drvice_type)].append(i.drvice_name)
+            data['{}'.format(i.drvice_type)].append([i.id, i.drvice_name])
             continue
         if i.drvice_type in data:
-            data['{}'.format(i.drvice_type)].append(i.drvice_name)
+            data['{}'.format(i.drvice_type)].append([i.id, i.drvice_name])
     data1 = {}
     for i in models.Script.objects.all():
         if i.drvice_type not in data1:
             data1['{}'.format(i.drvice_type)] = []
-            data1['{}'.format(i.drvice_type)].append(i.script_name)
+            data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
             continue
         if i.drvice_type in data1:
-            data1['{}'.format(i.drvice_type)].append(i.script_name)
+            data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
     context['drvice'] = data
     print(data)
     print(data1)
@@ -99,10 +99,10 @@ def to_reson(request):
     context = {}
     context['ret_data2'] = ['conf t']
     # print(data['srcipt']['name'])
-    for i in data['srcipt']['name']:
+    for i in data['srciptid']:
         # print(i)
         context['ret_data2'].append(models.Script.objects.get(
-            script_name='{}'.format(i)).script_reson.replace('<ip>', ip).replace('<network>', network))
+            id=i).script_reson.replace('<ip>', ip).replace('<network>', network))
         # context['ret_data2'] = context['ret_data2'] + models.Script.objects.get(
         #     script_name='{}'.format(i))
     print(context['ret_data2'])
@@ -131,7 +131,7 @@ def to_data(request):
     data = json.loads(request.body.decode())
     # ip = data['ip']
     # network = data['network']
-    data1 = data['drvice']
+    data1 = data['drviceid']
     # data2 = data['srcipt']
     # reson = ['conf t']
     passwd = []
@@ -144,7 +144,7 @@ def to_data(request):
     #                                                                                                        network))
     reson = to_action.limit_data
     for i in data1:
-        a = models.Drvice.objects.get(drvice_name='{}'.format(i))
+        a = models.Drvice.objects.get(id=i)
         login.append(a.drvice_host)
         user.append(a.drvice_user)
         port.append(a.drvice_port)
