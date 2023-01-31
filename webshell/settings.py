@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-dc&4v5_mq2)g1_8(=e#!z1oll*k-zfcd$q(2i0^c=%ivm$-t!l
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = '*'
+CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,9 +45,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -121,3 +123,13 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# # 添加 CORS 配置
+# # 1. 设置白名单
+# CORS_ORIGIN_WHITELIST = (
+#     '127.0.0.1:8080',
+#     'localhost:8080',
+#     'http://192.168.100.22:8082',  # 凡是出现在白名单中的域名，都可以访问后端接口
+# )
+# # 2. 设置 CORS Cookie
+# CORS_ALLOW_CREDENTIALS = True  # 指明在跨域访问中，后端是否支持对cookie的操作
