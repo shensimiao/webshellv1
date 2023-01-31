@@ -1,11 +1,12 @@
 import os
 
 import django
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from requests import request
 from lib.action import Action
 from blog import models
 import json
+from django.contrib import messages
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "webshell.settings")  # project_name指项目名
 django.setup()
@@ -107,6 +108,7 @@ def to_reson(request):
         #     script_name='{}'.format(i))
     print(context['ret_data2'])
     to_action.limit_data = context['ret_data2']
+    messages.success(request, '成功生成')
     return render(request, 'index.html', context, status=200)
 
 

@@ -140,7 +140,6 @@
       </ul>
     </div>
   </div>
-
   <div class="b-example-divider"></div>
         <div class="row g-3">
   <div class="col">
@@ -157,6 +156,9 @@
 </main>
 
  <script type="text/javascript">
+     {% for msg in messages %}
+        alert('{{ msg.message }}');
+    {% endfor %}
   /* global bootstrap: false */
   /*
       $(document).ready(function () {
