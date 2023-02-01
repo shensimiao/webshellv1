@@ -2,6 +2,7 @@ import os
 import time
 
 import django
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse, redirect
 from requests import request
 from lib.action import Action
@@ -34,7 +35,7 @@ def true(request):
             data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
     context['drvice'] = data
     context['script'] = data1
-    return HttpResponse(context)
+    return JsonResponse(data=context)
 
 
 def index(request):
@@ -85,7 +86,7 @@ def test(request):
     context['drvice_num'] = len(list1)
     context['drvice'] = json.dumps(list1, indent=2)
     context['script'] = [{'id': 10, 'type': 20, 'res': 30}, {'id': 11, 'type': 12, 'res': 31}]
-    return render(request, 'test.html', context)
+    return JsonResponse(data=context)
 
 
 # def drvice_add(requset):
@@ -133,12 +134,13 @@ def to_reson(request):
     print(context['ret_data2'])
     to_action.limit_data = context['ret_data2']
     messages.success(request, '成功生成')
-    return HttpResponse(context)
+    return JsonResponse(data=context)
 
 
 def clean_all(request):
     to_action.clean_data()
     context = {"ret_data1": '', "ret_data2": '', }
+
     # return render(request, 'index.html', context)
     return HttpResponse(context)
 
@@ -148,7 +150,7 @@ def update_reson(request):
     data = json.loads(request.body.decode())
     to_action.limit_data = data['srcipt']
     context['ret_data2'] = data['srcipt']
-    return HttpResponse(context)
+    return JsonResponse(data=context)
 
 
 def to_data(request):
@@ -185,4 +187,4 @@ def to_data(request):
                                     port=port, script_reson=reson)
     # print('给前端', ret_data)
     context['ret_data1'] = ret_data
-    return HttpResponse(context)
+    return JsonResponse(data=context)
