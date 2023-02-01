@@ -1,4 +1,5 @@
 import os
+import time
 
 import django
 from django.shortcuts import render, HttpResponse, redirect
@@ -13,17 +14,8 @@ django.setup()
 to_action = Action()
 
 
-def index(request):
+def true(request):
     context = {}
-    # print(request.method)
-    # if request.method == 'POST':
-    #     # 1.3 获取post除文件外所有数据 -->dict
-    #     print(request.POST)
-    #     # 1.4 获取
-    #     print(request.POST.getlist('ip'))
-    context['hello'] = 'Hello World!'
-    # context['drvice'] = DrviceOrm.all()
-    # context['script'] = ScriptOrm.all()
     data = {}
     for i in models.Drvice.objects.all():
         if i.drvice_type not in data:
@@ -41,9 +33,41 @@ def index(request):
         if i.drvice_type in data1:
             data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
     context['drvice'] = data
-    print(data)
-    print(data1)
     context['script'] = data1
+    return HttpResponse(context)
+
+
+def index(request):
+    context = {}
+    # print(request.method)
+    # if request.method == 'POST':
+    #     # 1.3 获取post除文件外所有数据 -->dict
+    #     print(request.POST)
+    #     # 1.4 获取
+    #     print(request.POST.getlist('ip'))
+    context['hello'] = 'Hello World!'
+    # context['drvice'] = DrviceOrm.all()
+    # context['script'] = ScriptOrm.all()
+    # data = {}
+    # for i in models.Drvice.objects.all():
+    #     if i.drvice_type not in data:
+    #         data['{}'.format(i.drvice_type)] = []
+    #         data['{}'.format(i.drvice_type)].append([i.id, i.drvice_name])
+    #         continue
+    #     if i.drvice_type in data:
+    #         data['{}'.format(i.drvice_type)].append([i.id, i.drvice_name])
+    # data1 = {}
+    # for i in models.Script.objects.all():
+    #     if i.drvice_type not in data1:
+    #         data1['{}'.format(i.drvice_type)] = []
+    #         data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
+    #         continue
+    #     if i.drvice_type in data1:
+    #         data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
+    # context['drvice'] = data
+    # print(data)
+    # print(data1)
+    # context['script'] = data1
     return render(request, 'index.html', context)
 
 
@@ -109,14 +133,14 @@ def to_reson(request):
     print(context['ret_data2'])
     to_action.limit_data = context['ret_data2']
     messages.success(request, '成功生成')
-    return render(request, 'index.html', context, status=200)
+    return HttpResponse(context)
 
 
 def clean_all(request):
     to_action.clean_data()
     context = {"ret_data1": '', "ret_data2": '', }
     # return render(request, 'index.html', context)
-    return render(request, 'index.html', context, status=200)
+    return HttpResponse(context)
 
 
 def update_reson(request):
@@ -124,7 +148,7 @@ def update_reson(request):
     data = json.loads(request.body.decode())
     to_action.limit_data = data['srcipt']
     context['ret_data2'] = data['srcipt']
-    return render(request, 'index.html', context, status=200)
+    return HttpResponse(context)
 
 
 def to_data(request):
@@ -161,4 +185,4 @@ def to_data(request):
                                     port=port, script_reson=reson)
     # print('给前端', ret_data)
     context['ret_data1'] = ret_data
-    return render(request, 'index.html', context, status=200)
+    return HttpResponse(context)
