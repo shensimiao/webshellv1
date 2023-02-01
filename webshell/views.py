@@ -15,7 +15,7 @@ django.setup()
 to_action = Action()
 
 
-def true(request):
+def drvice_true(request):
     context = {"data":[]}
     data = {}
     for i in models.Drvice.objects.all():
@@ -30,6 +30,12 @@ def true(request):
         a = {'name': i, 'children': data['{}'.format(i)]}
         children.append(a)
     context['data'].append({"name": "drvice", "children": children})
+    print(json.dumps(context))
+    return JsonResponse(data=context)
+
+
+def srcipt_true(request):
+    context = {"data":[]}
     data1 = {}
     for i in models.Script.objects.all():
         if i.drvice_type not in data1:
@@ -40,11 +46,12 @@ def true(request):
             data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id})
     children = []
     for i in data1:
-        a = {'name': i, 'children': data['{}'.format(i)]}
+        a = {'name': i, 'children': data1['{}'.format(i)]}
         children.append(a)
     context['data'].append({"name": "srcipt", "children": children})
     print(json.dumps(context))
     return JsonResponse(data=context)
+
 
 
 def index(request):
