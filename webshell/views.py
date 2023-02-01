@@ -16,25 +16,34 @@ to_action = Action()
 
 
 def true(request):
-    context = {}
+    context = {"data":[]}
     data = {}
     for i in models.Drvice.objects.all():
         if i.drvice_type not in data:
             data['{}'.format(i.drvice_type)] = []
-            data['{}'.format(i.drvice_type)].append([i.id, i.drvice_name])
+            data['{}'.format(i.drvice_type)].append({"name": "{}".format(i.drvice_name), "id": i.id})
             continue
         if i.drvice_type in data:
-            data['{}'.format(i.drvice_type)].append([i.id, i.drvice_name])
+            data['{}'.format(i.drvice_type)].append({"name": "{}".format(i.drvice_name), "id": i.id})
+    children = []
+    for i in data:
+        a = {'name': i, 'children': data['{}'.format(i)]}
+        children.append(a)
+    context['data'].append({"name": "drvice", "children": children})
     data1 = {}
     for i in models.Script.objects.all():
         if i.drvice_type not in data1:
             data1['{}'.format(i.drvice_type)] = []
-            data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
+            data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id})
             continue
         if i.drvice_type in data1:
-            data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
-    context['drvice'] = data
-    context['script'] = data1
+            data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id})
+    children = []
+    for i in data1:
+        a = {'name': i, 'children': data['{}'.format(i)]}
+        children.append(a)
+    context['data'].append({"name": "srcipt", "children": children})
+    print(json.dumps(context))
     return JsonResponse(data=context)
 
 

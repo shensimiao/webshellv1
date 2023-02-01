@@ -15,6 +15,7 @@ a = [1, 2, 3]
 for i in range(0, len(a)):
     print(a[i])
     print(i)
+b='a'
 # # print(a)
 # # list(a)
 # # print(a)
@@ -26,3 +27,5 @@ for i in range(0, len(a)):
 #
 # print(context['ds'])
 # print(int('0'))
+a.append({"ad":"{}".format(b)})
+print(a)
