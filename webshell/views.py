@@ -16,7 +16,7 @@ to_action = Action()
 
 
 def drvice_true(request):
-    context = {"data":[]}
+    context = {"data": []}
     data = {}
     for i in models.Drvice.objects.all():
         if i.drvice_type not in data:
@@ -35,7 +35,7 @@ def drvice_true(request):
 
 
 def srcipt_true(request):
-    context = {"data":[]}
+    context = {"data": []}
     data1 = {}
     for i in models.Script.objects.all():
         if i.drvice_type not in data1:
@@ -51,7 +51,6 @@ def srcipt_true(request):
     context['data'].append({"name": "srcipt", "children": children})
     print(json.dumps(context))
     return JsonResponse(data=context)
-
 
 
 def index(request):
@@ -155,17 +154,16 @@ def to_reson(request):
 
 def clean_all(request):
     to_action.clean_data()
-    context = {"ret_data1": '', "ret_data2": '', }
+    context = {"status": 200}
 
     # return render(request, 'index.html', context)
     return HttpResponse(context)
 
 
 def update_reson(request):
-    context = {}
     data = json.loads(request.body.decode())
     to_action.limit_data = data['srcipt']
-    context['ret_data2'] = data['srcipt']
+    context = {"status": 200}
     return JsonResponse(data=context)
 
 
