@@ -1,6 +1,6 @@
 import os
 import time
-
+import re
 import django
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse, redirect
@@ -104,49 +104,45 @@ def test(request):
     return JsonResponse(data=context)
 
 
-# def drvice_add(requset):
-#     models.Drvice.objects.create(drvice_name='hkd1-dev6', drvice_host='192.168.11.2', drvice_type='HK',
-#                                  drvice_port='22')
-#     all = models.Drvice.objects.filter(drvice_type='HK')
-#     return HttpResponse(all)
+input_data = {}
 
 
-# def search(request):
-#     ss = request.POST.get('search')  # 获取搜索的关键词
-#     list = Article.objects.filter(title__icontains=ss)  # 获取到搜索关键词通过标题进行匹配
-#     remen = Article.objects.filter(tui__id=2)[:6]
-#     allcategory = Category.objects.all()
-#     page = request.POST.get('page')
-#     tags = Tag.objects.all()
-#     paginator = Paginator(list, 10)
-#     try:
-#         list = paginator.page(page)  # 获取当前页码的记录
-#     except PageNotAnInteger:
-#         list = paginator.page(1)  # 如果用户输入的页码不是整数时,显示第1页的内容
-#     except EmptyPage:
-#         list = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
-#     return render(request, 'search.html', locals())
+def create_input(request):
+    data = json.loads(request.body.decode())
+    pattern = re.compile(r'<(.*?)>')
+    a = {}
+    for i in data['srciptid']:
+        # print(i)
+        reson = models.Script.objects.get(id=i).script_reson
+        match = pattern.findall(reson)
+        if match:
+            for i in match:
+                a['{}'.format(i)] = ''
+    context = {"data": a}
+    to_action.input_data = a
+    # print(a)
+    return JsonResponse(context)
 
 
 def to_reson(request):
-    print(request.method)
-    # print(request.GET)
-    # data = request.POST.get('srcipt')
+    # print(request.method)
     data = json.loads(request.body.decode())
-    # print('返回', data)
-    # data = dict(data)
-    ip = data['ip']
-    network = data['network']
-    context = {}
-    context['ret_data2'] = ['conf t']
+    input_data = to_action.input_data
+    for d in input_data:
+        input_data['{}'.format(d)] = data['{}'.format(d)]
+    # print(input_data)
+    context = {'ret_data2': ['conf t']}
     # print(data['srcipt']['name'])
     for i in data['srciptid']:
         # print(i)
-        context['ret_data2'].append(models.Script.objects.get(
-            id=i).script_reson.replace('<ip>', ip).replace('<network>', network))
+        a = models.Script.objects.get(id=i).script_reson
+        for b in input_data:
+            if '<{}>'.format(b) in a:
+                a = a.replace('<{}>'.format(b), '{}'.format(input_data['{}'.format(b)]))
+        context['ret_data2'].append(a)
         # context['ret_data2'] = context['ret_data2'] + models.Script.objects.get(
         #     script_name='{}'.format(i))
-    print(context['ret_data2'])
+    # print(context['ret_data2'])
     to_action.limit_data = context['ret_data2']
     messages.success(request, '成功生成')
     return JsonResponse(data=context)

@@ -7,6 +7,7 @@ class Action:
         self.ret = []
         self.is_key = int(models.Setting.objects.get(setting_name='is_key').setting_value)
         self.limit_data = None
+        self.input_data = None
 
     def action_ssh(self, login: list, user: list, port: list, script_reson: list, passwd: list = None):
         if self.is_key == 1:
@@ -45,6 +46,7 @@ class Action:
     def clean_data(self):
         self.ret = None
         self.limit_data = None
+        self.input_data = None
 
     def action_ssh_passwd(self, login, user, passwd, cmds, port: int = 22):
         ssh = paramiko.SSHClient()

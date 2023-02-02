@@ -11,11 +11,11 @@ import os, django
 # context['drvice'] = [{'id': 1, 'type': 2, 'c': 3}, {'id': 11, 'type': 12, 'c': 31}]
 # # context['drvice_num'] = len(context['drvice'])
 # # print(json.dumps(context['drvice'],indent=2))
-a = [1, 2, 3]
-for i in range(0, len(a)):
-    print(a[i])
-    print(i)
-b='a'
+# a = [1, 2, 3]
+# for i in range(0, len(a)):
+#     print(a[i])
+#     print(i)
+
 # # print(a)
 # # list(a)
 # # print(a)
@@ -27,5 +27,25 @@ b='a'
 #
 # print(context['ds'])
 # print(int('0'))
-a.append({"ad":"{}".format(b)})
-print(a)
+# a.append({"ad":"{}".format(b)})
+import re
+
+b = 'a <awdadwd-awdfd1><awdsdwd-11>'
+
+result = re.findall(r'<(.*?)>', b)
+
+if result:
+    for i in result:
+        print(i)
+else:
+    print("No matching content!")
+
+
+
+pattern = re.compile(r'<(.*?)>')
+
+match = pattern.findall(b)
+
+if match:
+    for i in match:
+        print(i)
