@@ -49,6 +49,7 @@ class Action:
         self.input_data = None
 
     def action_ssh_passwd(self, login, user, passwd, cmds, port: int = 22):
+        print(login,user,passwd,cmds,port)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
