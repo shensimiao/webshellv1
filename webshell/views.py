@@ -155,7 +155,7 @@ def clean_all(request):
     to_action.clean_data()
     context = {"status": 200}
 
-    return render(request, 'index.html', context)
+    return JsonResponse(data=context)
 
 
 # def update_reson(request):
