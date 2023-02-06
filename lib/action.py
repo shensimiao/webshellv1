@@ -44,12 +44,13 @@ class Action:
     #     return self.ret
 
     def clean_data(self):
-        self.ret = None
+        self.ret = []
         self.limit_data = None
         self.input_data = None
 
     def action_ssh_passwd(self, login, user, passwd, cmds, port: int = 22):
-        print(login,user,passwd,cmds,port)
+        self.ret = []
+        print(login, user, passwd, cmds, port)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
