@@ -30,7 +30,7 @@ def drvice_true(request):
         a = {'name': i, 'children': data['{}'.format(i)]}
         children.append(a)
     context['data'].append({"name": "drvice", "children": children})
-    print(json.dumps(context))
+    # print(json.dumps(context))
     return JsonResponse(data=context)
 
 
@@ -49,7 +49,7 @@ def srcipt_true(request):
         a = {'name': i, 'children': data1['{}'.format(i)]}
         children.append(a)
     context['data'].append({"name": "srcipt", "children": children})
-    print(json.dumps(context))
+    # print(json.dumps(context))
     return JsonResponse(data=context)
 
 
@@ -130,6 +130,7 @@ def to_reson(request):
     # print(request.method)
     data = json.loads(request.body.decode())
     input_data = to_action.input_data
+    print(data)
     for d in input_data:
         input_data['{}'.format(d)] = data['{}'.format(d)]
     # print(input_data)
