@@ -111,6 +111,7 @@ def create_input(request):
     data = json.loads(request.body.decode())
     pattern = re.compile(r'<(.*?)>')
     a = {}
+    b = []
     for i in data['srciptid']:
         # print(i)
         reson = models.Script.objects.get(id=i).script_reson
@@ -118,7 +119,8 @@ def create_input(request):
         if match:
             for i in match:
                 a['{}'.format(i)] = ''
-    context = {"data": a}
+                b.append(i)
+    context = {"data": a, "data1": b}
     to_action.input_data = a
     # print(a)
     return JsonResponse(context)
@@ -156,11 +158,11 @@ def clean_all(request):
     return HttpResponse(context)
 
 
-def update_reson(request):
-    data = json.loads(request.body.decode())
-    to_action.limit_data = data['srcipt']
-    context = {"status": 200}
-    return JsonResponse(data=context)
+# def update_reson(request):
+#     data = json.loads(request.body.decode())
+#     to_action.limit_data = data['srcipt']
+#     context = {"status": 200}
+#     return JsonResponse(data=context)
 
 
 def to_data(request):
