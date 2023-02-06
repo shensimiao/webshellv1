@@ -193,11 +193,11 @@ def to_data(request):
         port.append(a.drvice_port)
         if int(models.Setting.objects.get(setting_name='is_key').setting_value) == 0:
             passwd.append(a.drvice_passwd)
-    # print(reson)
-    # print(login)
-    # print(user)
-    # print(port)
-    # print(passwd)
+    print(reson)
+    print(login)
+    print(user)
+    print(port)
+    print(passwd)
     ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd,
                                     port=port, script_reson=reson)
     # print('给前端', ret_data)
