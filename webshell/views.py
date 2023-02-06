@@ -131,7 +131,7 @@ def to_reson(request):
     data = json.loads(request.body.decode())
     input_data = to_action.input_data
     print(data)
-    if input_data == {}:
+    if input_data != {}:
         for d in input_data:
             input_data['{}'.format(d)] = data['{}'.format(d)]
     # print(input_data)
