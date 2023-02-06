@@ -185,6 +185,7 @@ def to_data(request):
     #         models.Script.objects.get(script_name='{}'.format(i)).script_reson.replace('<ip>', ip).replace('<network>',
     #                                                                                                        network))
     reson = to_action.limit_data
+    print(reson)
     for i in data1:
         a = models.Drvice.objects.get(id=i)
         login.append(a.drvice_host)
