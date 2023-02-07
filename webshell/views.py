@@ -40,10 +40,12 @@ def srcipt_true(request):
     for i in models.Script.objects.all():
         if i.drvice_type not in data1:
             data1['{}'.format(i.drvice_type)] = []
-            data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id})
+            data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id,
+                                                      "reson": i.script_reson})
             continue
         if i.drvice_type in data1:
-            data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id})
+            data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id,
+                                                      "reson": i.script_reson})
     children = []
     for i in data1:
         a = {'name': i, 'children': data1['{}'.format(i)]}
