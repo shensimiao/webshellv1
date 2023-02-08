@@ -136,7 +136,7 @@ def to_reson(request):
         for d in input_data:
             input_data['{}'.format(d)] = data['{}'.format(d)]
     # print(input_data)
-    context = {'ret_data2': ['conf t']}
+    context = {'ret_data2': []}
     # print(data['srcipt']['name'])
     for i in data['srciptid']:
         # print(i)
@@ -171,11 +171,7 @@ def to_data(request):
     context = {}
     # data = request.POST.get('data')
     data = json.loads(request.body.decode())
-    # ip = data['ip']
-    # network = data['network']
     data1 = data['drviceid']
-    # data2 = data['srcipt']
-    # reson = ['conf t']
     passwd = []
     login = []
     user = []
