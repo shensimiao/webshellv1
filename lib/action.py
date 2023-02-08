@@ -30,6 +30,11 @@ class Action:
                         port=port, look_for_keys=False)
             # ssh_shell = ssh.invoke_shell()
             for cmd in cmds:
+                if ',' in cmd:
+                    for i in cmd.split(","):
+                        _, out, _ = ssh.exec_command(cmd)
+                        self.ret.append(out.read().decode('utf-8'))
+                    continue
                 _, out, _ = ssh.exec_command(cmd)
                 self.ret.append(out.read().decode('utf-8'))
         except Exception as err:
