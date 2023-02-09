@@ -37,7 +37,7 @@ class Action:
             for cmd in cmds:
                 output = conn.send_command_timing(command_string=cmd, delay_factor=3)
 
-                self.ret.append(output.decode('utf-8'))
+                self.ret.append(output)
         except Exception as err:
             print(err)
         except TimeoutError as err:
