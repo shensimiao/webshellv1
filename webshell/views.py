@@ -192,7 +192,7 @@ def to_data(request):
     # print(user)
     # print(port)
     # print(passwd)
-    ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd,drvice_type =dtype,
+    ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd, dtype=dtype,
                                     port=port, script_reson=reson)
     # print('给前端', ret_data)
     context['ret_data1'] = ret_data

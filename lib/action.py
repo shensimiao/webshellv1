@@ -2,6 +2,7 @@ import paramiko
 from blog import models
 from netmiko import ConnectHandler
 
+
 class Action:
     def __init__(self):
         self.ret = []
@@ -9,7 +10,7 @@ class Action:
         self.limit_data = None
         self.input_data = None
 
-    def action_ssh(self, login: list, user: list, port: list, dtype :list, script_reson: list, passwd: list = None):
+    def action_ssh(self, login: list, user: list, port: list, dtype: list, script_reson: list, passwd: list = None):
         if self.is_key == 1:
             for i in range(0, len(login)):
                 ret = self.action_ssh_key(login=login[i], user=user[i], port=port[i], cmds=script_reson)
@@ -18,7 +19,7 @@ class Action:
             for i in range(0, len(login)):
                 if dtype[i] == 'Vyos':
                     ret = self.action_ssh_netmiko(login=login[i], user=user[i],
-                                             port=port[i], cmds=script_reson, password=passwd[i])
+                                                  port=port[i], cmds=script_reson, password=passwd[i])
                     return ret
                 ret = self.action_ssh_passwd(login=login[i], user=user[i],
                                              port=port[i], cmds=script_reson, passwd=passwd[i])
