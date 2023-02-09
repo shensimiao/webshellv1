@@ -28,24 +28,56 @@ import os, django
 # print(context['ds'])
 # print(int('0'))
 # a.append({"ad":"{}".format(b)})
-import re
+# import re
+#
+# b = 'a <awdadwd-awdfd1<awdsdwd-11'
+#
+# result = re.findall(r'<(.*?)', b)
+#
+# if result:
+#     for i in result:
+#         print(i)
+# else:
+#     print("No matching content!")
+#
+#
+#
+# pattern = re.compile(r'<(.*?)')
+#
+# match = pattern.findall(b)
+#
+# if match:
+#     for i in match:
+#         print(i)
 
-b = 'a <awdadwd-awdfd1><awdsdwd-11>'
+from netmiko import ConnectHandler
+import time
+login = '10.10.155.2'
+user = 'testuser'
+password = 'test@123'
+port = 53587
+cmds = ['show interfaces']
+times = 30
 
-result = re.findall(r'<(.*?)>', b)
+def action_ssh_passwd():
+    ret = []
+    # print(login, user, passwd, cmds, port)
+    try:
+        conn = ConnectHandler(device_type='vyos',
+                              host=login,
+                              username=user,
+                              password=password,
+                              port=port)
+        # ssh_shell = ssh.invoke_shell()
+        # ssh = ssh.get_transport().open_session()
+        for cmd in cmds:
+            output = conn.send_command_timing(command_string=cmd,delay_factor=3)
 
-if result:
-    for i in result:
-        print(i)
-else:
-    print("No matching content!")
+            print(output)
+    except Exception as err:
+        print(err)
+    except TimeoutError as err:
+        print(err)
+    # print(ret)
 
-
-
-pattern = re.compile(r'<(.*?)>')
-
-match = pattern.findall(b)
-
-if match:
-    for i in match:
-        print(i)
+action_ssh_passwd()

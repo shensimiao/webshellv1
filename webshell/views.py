@@ -176,10 +176,7 @@ def to_data(request):
     login = []
     user = []
     port = []
-    # for i in data2:
-    #     reson.append(
-    #         models.Script.objects.get(script_name='{}'.format(i)).script_reson.replace('<ip>', ip).replace('<network>',
-    #                                                                                                        network))
+    dtype = []
     reson = to_action.limit_data
     print(reson)
     for i in data1:
@@ -187,14 +184,15 @@ def to_data(request):
         login.append(a.drvice_host)
         user.append(a.drvice_user)
         port.append(a.drvice_port)
+        dtype.append(a.drvice_type)
         if int(models.Setting.objects.get(setting_name='is_key').setting_value) == 0:
             passwd.append(a.drvice_passwd)
-    print(reson)
-    print(login)
-    print(user)
-    print(port)
-    print(passwd)
-    ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd,
+    # print(reson)
+    # print(login)
+    # print(user)
+    # print(port)
+    # print(passwd)
+    ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd,drvice_type =dtype,
                                     port=port, script_reson=reson)
     # print('给前端', ret_data)
     context['ret_data1'] = ret_data

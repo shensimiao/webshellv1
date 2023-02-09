@@ -1,6 +1,6 @@
 import paramiko
 from blog import models
-
+from netmiko import ConnectHandler
 
 class Action:
     def __init__(self):
@@ -9,16 +9,40 @@ class Action:
         self.limit_data = None
         self.input_data = None
 
-    def action_ssh(self, login: list, user: list, port: list, script_reson: list, passwd: list = None):
+    def action_ssh(self, login: list, user: list, port: list, dtype :list, script_reson: list, passwd: list = None):
         if self.is_key == 1:
             for i in range(0, len(login)):
                 ret = self.action_ssh_key(login=login[i], user=user[i], port=port[i], cmds=script_reson)
                 return ret
         if self.is_key == 0:
             for i in range(0, len(login)):
+                if dtype[i] == 'Vyos':
+                    ret = self.action_ssh_netmiko(login=login[i], user=user[i],
+                                             port=port[i], cmds=script_reson, password=passwd[i])
+                    return ret
                 ret = self.action_ssh_passwd(login=login[i], user=user[i],
                                              port=port[i], cmds=script_reson, passwd=passwd[i])
                 return ret
+
+    def action_ssh_netmiko(self, login, user, password, port, cmds):
+        try:
+            conn = ConnectHandler(device_type='vyos',
+                                  host=login,
+                                  username=user,
+                                  password=password,
+                                  port=port)
+            # ssh_shell = ssh.invoke_shell()
+            # ssh = ssh.get_transport().open_session()
+            for cmd in cmds:
+                output = conn.send_command_timing(command_string=cmd, delay_factor=3)
+
+                self.ret.append(output.decode('utf-8'))
+        except Exception as err:
+            print(err)
+        except TimeoutError as err:
+            print(err)
+        print(self.ret)
+        return self.ret
 
     def action_ssh_key(self, login, user, cmds, port: int = 22):
         # 负责执行
@@ -63,6 +87,11 @@ class Action:
                         port=port, look_for_keys=False)
             # ssh_shell = ssh.invoke_shell()
             for cmd in cmds:
+                if ',' in cmd:
+                    for i in cmd.split(","):
+                        _, out, _ = ssh.exec_command(cmd)
+                        self.ret.append(out.read().decode('utf-8'))
+                    continue
                 _, out, _ = ssh.exec_command(cmd)
                 self.ret.append(out.read().decode('utf-8'))
         except Exception as err:
