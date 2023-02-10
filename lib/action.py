@@ -35,8 +35,12 @@ class Action:
             # ssh_shell = ssh.invoke_shell()
             # ssh = ssh.get_transport().open_session()
             for cmd in cmds:
+                if ',' in cmd:
+                    for i in cmd.split(","):
+                        output = conn.send_command_timing(command_string=i, delay_factor=3)
+                        self.ret.append(output)
+                    continue
                 output = conn.send_command_timing(command_string=cmd, delay_factor=3)
-
                 self.ret.append(output)
         except Exception as err:
             print(err)
@@ -57,7 +61,7 @@ class Action:
             for cmd in cmds:
                 if ',' in cmd:
                     for i in cmd.split(","):
-                        _, out, _ = ssh.exec_command(cmd)
+                        _, out, _ = ssh.exec_command(i)
                         self.ret.append(out.read().decode('utf-8'))
                     continue
                 _, out, _ = ssh.exec_command(cmd)
@@ -90,7 +94,7 @@ class Action:
             for cmd in cmds:
                 if ',' in cmd:
                     for i in cmd.split(","):
-                        _, out, _ = ssh.exec_command(cmd)
+                        _, out, _ = ssh.exec_command(i)
                         self.ret.append(out.read().decode('utf-8'))
                     continue
                 _, out, _ = ssh.exec_command(cmd)
