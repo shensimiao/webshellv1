@@ -44,6 +44,7 @@ class Action:
                 output = conn.send_command_timing(command_string=cmd, delay_factor=3)
                 self.ret.append(output)
                 print(cmd, output)
+            conn.close_session_log()
         except Exception as err:
             print(err)
         except TimeoutError as err:
@@ -70,6 +71,7 @@ class Action:
                 _, out, _ = ssh.exec_command(cmd)
                 self.ret.append(out.read().decode('utf-8'))
                 print(cmd, out.read())
+            ssh.close()
         except Exception as err:
             print(err)
         except TimeoutError as err:
@@ -104,6 +106,7 @@ class Action:
                     _, out, _ = ssh.exec_command(data[i])
                     self.ret.append(out.read().decode('utf-8'))
                     print(data[i])
+            ssh.close()
         except Exception as err:
             print(err)
         except TimeoutError as err:
