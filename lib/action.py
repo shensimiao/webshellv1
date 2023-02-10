@@ -102,7 +102,7 @@ class Action:
                     for i in data:
                         _, out, _ = ssh.exec_command(i)
                         self.ret.append(out.read().decode('utf-8'))
-                        print(i, out.read())
+                        print(i)
                     continue
                 _, out, _ = ssh.exec_command(cmd)
                 self.ret.append(out.read().decode('utf-8'))
