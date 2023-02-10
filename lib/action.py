@@ -96,17 +96,14 @@ class Action:
                         port=port, look_for_keys=False)
             # ssh_shell = ssh.invoke_shell()
             for cmd in cmds:
-                if ',' in cmd:
-                    data = cmd.split(',')
-                    print(data)
-                    for i in data:
-                        _, out, _ = ssh.exec_command(i)
-                        self.ret.append(out.read().decode('utf-8'))
-                        print(i)
-                    continue
-                _, out, _ = ssh.exec_command(cmd)
-                self.ret.append(out.read().decode('utf-8'))
-                print(cmd, out.read())
+                if ',' not in cmd:
+                    _, out, _ = ssh.exec_command(cmd)
+                    self.ret.append(out.read().decode('utf-8'))
+                data = cmd.split(',')
+                for i in data:
+                    _, out, _ = ssh.exec_command(i)
+                    self.ret.append(out.read().decode('utf-8'))
+                    print(i)
         except Exception as err:
             print(err)
         except TimeoutError as err:
