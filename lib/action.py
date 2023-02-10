@@ -97,7 +97,9 @@ class Action:
             # ssh_shell = ssh.invoke_shell()
             for cmd in cmds:
                 if ',' in cmd:
-                    for i in cmd.split(","):
+                    data = cmd.split(',')
+                    print(data)
+                    for i in data:
                         _, out, _ = ssh.exec_command(i)
                         self.ret.append(out.read().decode('utf-8'))
                         print(i, out.read())
