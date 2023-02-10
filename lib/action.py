@@ -39,9 +39,11 @@ class Action:
                     for i in cmd.split(","):
                         output = conn.send_command_timing(command_string=i, delay_factor=3)
                         self.ret.append(output)
+                        print(i, output)
                     continue
                 output = conn.send_command_timing(command_string=cmd, delay_factor=3)
                 self.ret.append(output)
+                print(cmd, output)
         except Exception as err:
             print(err)
         except TimeoutError as err:
@@ -63,9 +65,11 @@ class Action:
                     for i in cmd.split(","):
                         _, out, _ = ssh.exec_command(i)
                         self.ret.append(out.read().decode('utf-8'))
+                        print(i,out.read())
                     continue
                 _, out, _ = ssh.exec_command(cmd)
                 self.ret.append(out.read().decode('utf-8'))
+                print(cmd, out.read())
         except Exception as err:
             print(err)
         except TimeoutError as err:
@@ -96,9 +100,11 @@ class Action:
                     for i in cmd.split(","):
                         _, out, _ = ssh.exec_command(i)
                         self.ret.append(out.read().decode('utf-8'))
+                        print(i, out.read())
                     continue
                 _, out, _ = ssh.exec_command(cmd)
                 self.ret.append(out.read().decode('utf-8'))
+                print(cmd, out.read())
         except Exception as err:
             print(err)
         except TimeoutError as err:
