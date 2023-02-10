@@ -52,32 +52,50 @@ import os, django
 
 from netmiko import ConnectHandler
 import time
-login = '10.10.155.2'
+import paramiko
+
+login = '10.10.155.3'
 user = 'testuser'
 password = 'test@123'
-port = 53587
-cmds = ['show interfaces']
+port = 22
+cmds = ['configure t', 'show run']
 times = 30
 
-def action_ssh_passwd():
-    ret = []
-    # print(login, user, passwd, cmds, port)
-    try:
-        conn = ConnectHandler(device_type='vyos',
-                              host=login,
-                              username=user,
-                              password=password,
-                              port=port)
-        # ssh_shell = ssh.invoke_shell()
-        # ssh = ssh.get_transport().open_session()
-        for cmd in cmds:
-            output = conn.send_command_timing(command_string=cmd,delay_factor=3)
 
-            print(output)
-    except Exception as err:
-        print(err)
-    except TimeoutError as err:
-        print(err)
-    # print(ret)
+def ssh_passwd():
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    # try:
+    ssh.connect(hostname=login, username=user, password=password,timeout=times,
+                port=port, look_for_keys=False)
+    for i in cmds:
+        print(i)
+        _, out, _ = ssh.exec_command(i)
+        if 'configure' in i:
+            continue
+        print(out.read())
+    #     print('no')
 
-action_ssh_passwd()
+ssh_passwd()
+# def action_ssh_passwd():
+#     ret = []
+#     # print(login, user, passwd, cmds, port)
+#     try:
+#         conn = ConnectHandler(device_type='vyos',
+#                               host=login,
+#                               username=user,
+#                               password=password,
+#                               port=port)
+#         # ssh_shell = ssh.invoke_shell()
+#         # ssh = ssh.get_transport().open_session()
+#         for cmd in cmds:
+#             output = conn.send_command_timing(command_string=cmd,delay_factor=3)
+#
+#             print(output)
+#     except Exception as err:
+#         print(err)
+#     except TimeoutError as err:
+#         print(err)
+#     # print(ret)
+
+# action_ssh_passwd()

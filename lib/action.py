@@ -100,6 +100,8 @@ class Action:
             for cmd in cmds:
                 if ',' not in cmd:
                     _, out, _ = ssh.exec_command(cmd)
+                    if 'configure' in cmd:
+                        continue
                     self.ret.append(out.read().decode('utf-8'))
                 data = cmd.split(',')
                 for i in range(0,len(data)):
