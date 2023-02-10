@@ -110,8 +110,8 @@ class Action:
                     print(data[i])
             ssh.close()
         except Exception as err:
-            print(err)
+            print('error:',err)
         except TimeoutError as err:
-            print(err)
+            print('error:',err)
         print(self.ret)
         return self.ret
