@@ -62,40 +62,44 @@ cmds = ['configure t', 'show run']
 times = 30
 
 
-def ssh_passwd():
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    # try:
-    ssh.connect(hostname=login, username=user, password=password,timeout=times,
-                port=port, look_for_keys=False)
-    for i in cmds:
-        print(i)
-        _, out, _ = ssh.exec_command(i)
-        if 'configure' in i:
-            continue
-        print(out.read())
-    #     print('no')
-
-ssh_passwd()
-# def action_ssh_passwd():
-#     ret = []
-#     # print(login, user, passwd, cmds, port)
-#     try:
-#         conn = ConnectHandler(device_type='vyos',
-#                               host=login,
-#                               username=user,
-#                               password=password,
-#                               port=port)
-#         # ssh_shell = ssh.invoke_shell()
-#         # ssh = ssh.get_transport().open_session()
-#         for cmd in cmds:
-#             output = conn.send_command_timing(command_string=cmd,delay_factor=3)
+# def ssh_passwd():
+#     ssh = paramiko.SSHClient()
+#     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+#     # try:
+#     ssh.connect(hostname=login, username=user, password=password, timeout=times,
+#                 port=port, look_for_keys=False)
+#     for i in cmds:
+#         print(i)
+#         _, out, err = ssh.exec_command(i)
+#         # if 'configure' in i:
+#         #     continue
+#         print(out.read().decode('utf-8'))
+#         time.sleep(1)
+#     ssh.close()
+#     #     print('no')
 #
-#             print(output)
-#     except Exception as err:
-#         print(err)
-#     except TimeoutError as err:
-#         print(err)
-#     # print(ret)
+#
+# ssh_passwd()
+def action_ssh_passwd():
+    ret = []
+    # print(login, user, passwd, cmds, port)
+    try:
+        conn = ConnectHandler(device_type='cisco_ios',
+                              host=login,
+                              username=user,
+                              password=password,
+                              port=port)
+        # ssh_shell = ssh.invoke_shell()
+        # ssh = ssh.get_transport().open_session()
+        for cmd in cmds:
+            output = conn.send_command_timing(command_string=cmd, delay_factor=3)
 
-# action_ssh_passwd()
+            print(output)
+    except Exception as err:
+        print(err)
+    except TimeoutError as err:
+        print(err)
+    # print(ret)
+
+
+action_ssh_passwd()

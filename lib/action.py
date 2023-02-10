@@ -109,8 +109,8 @@ class Action:
                     self.ret.append(out.read().decode('utf-8'))
                     print(data[i])
             ssh.close()
-        # except Exception as err:
-        #     print('error1:', err)
+        except Exception as err:
+            print('error1:', err)
         except TimeoutError as err:
             print('error2:', err)
         print(self.ret)
