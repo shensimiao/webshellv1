@@ -100,10 +100,10 @@ class Action:
                     _, out, _ = ssh.exec_command(cmd)
                     self.ret.append(out.read().decode('utf-8'))
                 data = cmd.split(',')
-                for i in data:
-                    _, out, _ = ssh.exec_command(i)
+                for i in range(0,len(data)):
+                    _, out, _ = ssh.exec_command(data[i])
                     self.ret.append(out.read().decode('utf-8'))
-                    print(i)
+                    print(data[i])
         except Exception as err:
             print(err)
         except TimeoutError as err:
