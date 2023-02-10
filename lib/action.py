@@ -66,7 +66,7 @@ class Action:
                     for i in cmd.split(","):
                         _, out, _ = ssh.exec_command(i)
                         self.ret.append(out.read().decode('utf-8'))
-                        print(i,out.read())
+                        print(i, out.read())
                     continue
                 _, out, _ = ssh.exec_command(cmd)
                 self.ret.append(out.read().decode('utf-8'))
@@ -104,14 +104,14 @@ class Action:
                         continue
                     self.ret.append(out.read().decode('utf-8'))
                 data = cmd.split(',')
-                for i in range(0,len(data)):
+                for i in range(0, len(data)):
                     _, out, _ = ssh.exec_command(data[i])
                     self.ret.append(out.read().decode('utf-8'))
                     print(data[i])
             ssh.close()
         except Exception as err:
-            print('error:',err)
+            print('error1:', err)
         except TimeoutError as err:
-            print('error:',err)
+            print('error2:', err)
         print(self.ret)
         return self.ret
