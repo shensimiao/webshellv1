@@ -1,19 +1,19 @@
 from django.contrib import admin
-from .models import Drvice, Script, Setting
+from .models import Device, Script, Setting
 
 
 # Register your models here.
 
 
-@admin.register(Drvice)
-class DrviceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'drvice_name', 'drvice_passwd', 'drvice_host', 'drvice_user',
-                    'drvice_port', 'drvice_type', 'last_updated')
+@admin.register(Device)
+class deviceAdmin(admin.ModelAdmin):
+    list_display = ('id', 'device_name', 'device_passwd', 'device_host', 'device_user',
+                    'device_port', 'device_type', 'last_updated')
 
 
 @admin.register(Script)
 class ScriptAdmin(admin.ModelAdmin):
-    list_display = ('id', 'script_name', 'script_reson', 'drvice_type', 'last_updated')
+    list_display = ('id', 'script_name', 'script_reson', 'device_type', 'last_updated')
 
 
 @admin.register(Setting)
@@ -22,7 +22,7 @@ class SettingAdmin(admin.ModelAdmin):
 
 
 # 在admin中注册绑定
-# admin.site.register(Drvice, DrviceAdmin)
+# admin.site.register(device, deviceAdmin)
 #
 # admin.site.register(Script, ScriptAdmin)
 #
