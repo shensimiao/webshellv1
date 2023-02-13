@@ -15,21 +15,21 @@ django.setup()
 to_action = Action()
 
 
-def drvice_true(request):
+def device_true(request):
     context = {"data": []}
     data = {}
-    for i in models.Drvice.objects.all():
-        if i.drvice_type not in data:
-            data['{}'.format(i.drvice_type)] = []
-            data['{}'.format(i.drvice_type)].append({"name": "{}".format(i.drvice_name), "id": i.id})
+    for i in models.device.objects.all():
+        if i.device_type not in data:
+            data['{}'.format(i.device_type)] = []
+            data['{}'.format(i.device_type)].append({"name": "{}".format(i.device_name), "id": i.id})
             continue
-        if i.drvice_type in data:
-            data['{}'.format(i.drvice_type)].append({"name": "{}".format(i.drvice_name), "id": i.id})
+        if i.device_type in data:
+            data['{}'.format(i.device_type)].append({"name": "{}".format(i.device_name), "id": i.id})
     children = []
     for i in data:
         a = {'name': i, 'children': data['{}'.format(i)]}
         children.append(a)
-    context['data'].append({"name": "drvice", "children": children})
+    context['data'].append({"name": "device", "children": children})
     # print(json.dumps(context))
     return JsonResponse(data=context)
 
@@ -38,12 +38,12 @@ def srcipt_true(request):
     context = {"data": []}
     data1 = {}
     for i in models.Script.objects.all():
-        if i.drvice_type not in data1:
-            data1['{}'.format(i.drvice_type)] = []
-            data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id})
+        if i.device_type not in data1:
+            data1['{}'.format(i.device_type)] = []
+            data1['{}'.format(i.device_type)].append({"name": "{}".format(i.script_name), "id": i.id})
             continue
-        if i.drvice_type in data1:
-            data1['{}'.format(i.drvice_type)].append({"name": "{}".format(i.script_name), "id": i.id})
+        if i.device_type in data1:
+            data1['{}'.format(i.device_type)].append({"name": "{}".format(i.script_name), "id": i.id})
     children = []
     for i in data1:
         a = {'name': i, 'children': data1['{}'.format(i)]}
@@ -62,25 +62,25 @@ def index(request):
     #     # 1.4 获取
     #     print(request.POST.getlist('ip'))
     context['hello'] = 'Hello World!'
-    # context['drvice'] = DrviceOrm.all()
+    # context['device'] = deviceOrm.all()
     # context['script'] = ScriptOrm.all()
     # data = {}
-    # for i in models.Drvice.objects.all():
-    #     if i.drvice_type not in data:
-    #         data['{}'.format(i.drvice_type)] = []
-    #         data['{}'.format(i.drvice_type)].append([i.id, i.drvice_name])
+    # for i in models.device.objects.all():
+    #     if i.device_type not in data:
+    #         data['{}'.format(i.device_type)] = []
+    #         data['{}'.format(i.device_type)].append([i.id, i.device_name])
     #         continue
-    #     if i.drvice_type in data:
-    #         data['{}'.format(i.drvice_type)].append([i.id, i.drvice_name])
+    #     if i.device_type in data:
+    #         data['{}'.format(i.device_type)].append([i.id, i.device_name])
     # data1 = {}
     # for i in models.Script.objects.all():
-    #     if i.drvice_type not in data1:
-    #         data1['{}'.format(i.drvice_type)] = []
-    #         data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
+    #     if i.device_type not in data1:
+    #         data1['{}'.format(i.device_type)] = []
+    #         data1['{}'.format(i.device_type)].append([i.id, i.script_name])
     #         continue
-    #     if i.drvice_type in data1:
-    #         data1['{}'.format(i.drvice_type)].append([i.id, i.script_name])
-    # context['drvice'] = data
+    #     if i.device_type in data1:
+    #         data1['{}'.format(i.device_type)].append([i.id, i.script_name])
+    # context['device'] = data
     # print(data)
     # print(data1)
     # context['script'] = data1
@@ -98,13 +98,10 @@ def test(request):
     context['hello'] = "'Hello World!'"
     # context['script'] = ScriptOrm.all()
     list1 = [{'id': 1, 'type': 2, 'c': 3}, {'id': 11, 'type': 12, 'c': 31}]
-    context['drvice_num'] = len(list1)
-    context['drvice'] = json.dumps(list1, indent=2)
+    context['device_num'] = len(list1)
+    context['device'] = json.dumps(list1, indent=2)
     context['script'] = [{'id': 10, 'type': 20, 'res': 30}, {'id': 11, 'type': 12, 'res': 31}]
     return JsonResponse(data=context)
-
-
-input_data = {}
 
 
 def create_input(request):
@@ -120,7 +117,7 @@ def create_input(request):
             for i in match:
                 a['{}'.format(i)] = ''
                 b.append(i)
-    context = {"data": a, "data1": b, "disabled": 'true'}
+    context = {"data": a, "data1": b}
     to_action.input_data = a
     # print(a)
     return JsonResponse(context)
@@ -171,7 +168,7 @@ def to_data(request):
     context = {}
     # data = request.POST.get('data')
     data = json.loads(request.body.decode())
-    data1 = data['drviceid']
+    data1 = data['deviceid']
     passwd = []
     login = []
     user = []
@@ -180,13 +177,13 @@ def to_data(request):
     reson = to_action.limit_data
     print(reson)
     for i in data1:
-        a = models.Drvice.objects.get(id=i)
-        login.append(a.drvice_host)
-        user.append(a.drvice_user)
-        port.append(a.drvice_port)
-        dtype.append(a.drvice_type)
+        a = models.device.objects.get(id=i)
+        login.append(a.device_host)
+        user.append(a.device_user)
+        port.append(a.device_port)
+        dtype.append(a.device_type)
         if int(models.Setting.objects.get(setting_name='is_key').setting_value) == 0:
-            passwd.append(a.drvice_passwd)
+            passwd.append(a.device_passwd)
     # print(reson)
     # print(login)
     # print(user)
