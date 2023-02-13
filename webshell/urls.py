@@ -25,7 +25,7 @@ urlpatterns = [
     path('to_data/', views.to_data),
     path('to_reson/', views.to_reson),
     path('clean_all/', views.clean_all),
-    path('drvice_true/', views.drvice_true),
+    path('drvice_true/', views.device_true),
     path('srcipt_true/', views.srcipt_true),
     path('create_input/', views.create_input),
 ]
