@@ -120,7 +120,7 @@ def create_input(request):
             for i in match:
                 a['{}'.format(i)] = ''
                 b.append(i)
-    context = {"data": a, "data1": b}
+    context = {"data": a, "data1": b, "disabled": 'true'}
     to_action.input_data = a
     # print(a)
     return JsonResponse(context)
