@@ -123,9 +123,9 @@ def create_input(request):
     to_action.ids = data
     a = {}
     b = []
-    for i in data['srciptid']:
+    if data['srciptid']:
         # print(i)
-        reson = models.Script.objects.get(id=i).script_reson
+        reson = models.Script.objects.get(id=data['srciptid']).script_reson
         match = pattern.findall(reson)
         if match:
             for i in match:
