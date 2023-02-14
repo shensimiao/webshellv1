@@ -65,6 +65,7 @@ def s_ture(request):
         true2 = true1.replace("'id': {}".format(ids['srciptid']), "'id': {}, 'disable': True".format(ids['srciptid']))
         true2 = eval(true1)
         context = {"data": [{"name": "srcipt", "children": true2}]}
+    print(context)
     return JsonResponse(data=context)
 
 
