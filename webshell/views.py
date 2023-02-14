@@ -18,7 +18,7 @@ to_action = Action()
 def device_true(request):
     context = {"data": []}
     data = {}
-    for i in models.device.objects.all():
+    for i in models.Device.objects.all():
         if i.device_type not in data:
             data['{}'.format(i.device_type)] = []
             data['{}'.format(i.device_type)].append({"name": "{}".format(i.device_name), "id": i.id})
@@ -29,6 +29,7 @@ def device_true(request):
     for i in data:
         a = {'name': i, 'children': data['{}'.format(i)]}
         children.append(a)
+    to_action.device_true = children
     context['data'].append({"name": "device", "children": children})
     # print(json.dumps(context))
     return JsonResponse(data=context)
@@ -48,20 +49,32 @@ def srcipt_true(request):
     for i in data1:
         a = {'name': i, 'children': data1['{}'.format(i)]}
         children.append(a)
+    to_action.srcipt_true = children
     context['data'].append({"name": "srcipt", "children": children})
     # print(json.dumps(context))
     return JsonResponse(data=context)
 
 
+def s_ture(request):
+    true = to_action.srcipt_true
+    ids = to_action.ids
+    true2 = None
+    if ids['srciptid']:
+        true1 = str(true)
+        true2 = true1.replace("'id': {}".format(ids['srciptid']), "'id': {}, 'disable': True".format(ids['srciptid']))
+        true2 = eval(true1)
+    context = {"data": [{"name": "srcipt", "children": true2}]}
+    return JsonResponse(data=context)
+
+
 def index(request):
-    context = {}
+    context = {'hello': 'Hello World!'}
     # print(request.method)
     # if request.method == 'POST':
     #     # 1.3 获取post除文件外所有数据 -->dict
     #     print(request.POST)
     #     # 1.4 获取
     #     print(request.POST.getlist('ip'))
-    context['hello'] = 'Hello World!'
     # context['device'] = deviceOrm.all()
     # context['script'] = ScriptOrm.all()
     # data = {}
@@ -87,26 +100,27 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def test(request):
-    context = {}
-    print(request.method)
-    if request.method == 'POST':
-        # 1.3 获取post除文件外所有数据 -->dict
-        print(request.POST)
-        # 1.4 获取
-        print(request.POST.getlist('ip'))
-    context['hello'] = "'Hello World!'"
-    # context['script'] = ScriptOrm.all()
-    list1 = [{'id': 1, 'type': 2, 'c': 3}, {'id': 11, 'type': 12, 'c': 31}]
-    context['device_num'] = len(list1)
-    context['device'] = json.dumps(list1, indent=2)
-    context['script'] = [{'id': 10, 'type': 20, 'res': 30}, {'id': 11, 'type': 12, 'res': 31}]
-    return JsonResponse(data=context)
+# def test(request):
+#     context = {}
+#     print(request.method)
+#     if request.method == 'POST':
+#         # 1.3 获取post除文件外所有数据 -->dict
+#         print(request.POST)
+#         # 1.4 获取
+#         print(request.POST.getlist('ip'))
+#     context['hello'] = "'Hello World!'"
+#     # context['script'] = ScriptOrm.all()
+#     list1 = [{'id': 1, 'type': 2, 'c': 3}, {'id': 11, 'type': 12, 'c': 31}]
+#     context['device_num'] = len(list1)
+#     context['device'] = json.dumps(list1, indent=2)
+#     context['script'] = [{'id': 10, 'type': 20, 'res': 30}, {'id': 11, 'type': 12, 'res': 31}]
+#     return JsonResponse(data=context)
 
 
 def create_input(request):
     data = json.loads(request.body.decode())
     pattern = re.compile(r'<(.*?)>')
+    to_action.ids = data
     a = {}
     b = []
     for i in data['srciptid']:
@@ -177,7 +191,7 @@ def to_data(request):
     reson = to_action.limit_data
     print(reson)
     for i in data1:
-        a = models.device.objects.get(id=i)
+        a = models.Device.objects.get(id=i)
         login.append(a.device_host)
         user.append(a.device_user)
         port.append(a.device_port)

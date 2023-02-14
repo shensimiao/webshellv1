@@ -11,6 +11,7 @@ class Action:
         self.input_data = None
         self.srcipt_true = None
         self.device_true = None
+        self.ids = None
 
     def action_ssh(self, login: list, user: list, port: list, dtype: list, script_reson: list, passwd: list = None):
         if self.is_key == 1:
