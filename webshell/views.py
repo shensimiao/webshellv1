@@ -63,7 +63,7 @@ def s_ture(request):
     if ids['srciptid']:
         true1 = str(true)
         true2 = true1.replace("'id': %d}" % (ids['srciptid']),
-                              "'id': {}, 'disable': 'true'}".format(ids['srciptid']))
+                              "'id': %d, 'disable': 'true'}" % (ids['srciptid']))
         true2 = eval(true2)
         print(true2)
         context = {"data": [{"name": "srcipt", "children": true2}]}
