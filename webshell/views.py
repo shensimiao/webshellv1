@@ -58,12 +58,13 @@ def srcipt_true(request):
 def s_ture(request):
     true = to_action.srcipt_true
     ids = to_action.ids
-    true2 = None
+    print(ids)
+    context = {}
     if ids['srciptid']:
         true1 = str(true)
         true2 = true1.replace("'id': {}".format(ids['srciptid']), "'id': {}, 'disable': True".format(ids['srciptid']))
         true2 = eval(true1)
-    context = {"data": [{"name": "srcipt", "children": true2}]}
+        context = {"data": [{"name": "srcipt", "children": true2}]}
     return JsonResponse(data=context)
 
 
