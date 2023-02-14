@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('index/', views.index),
-    path('test/', views.test),
+    path('s_ture/', views.s_ture),
     # path('add/', views.drvice_add),
     path('to_data/', views.to_data),
     path('to_reson/', views.to_reson),
