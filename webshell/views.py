@@ -26,7 +26,7 @@ def device_true(request):
         if i.device_type in data:
             data['{}'.format(i.device_type)].append({"name": "{}".format(i.device_name), "id": i.id})
     children = []
-    a1 = 0
+    a1 = 100000
     for i in data:
         a = {'name': i, 'children': data['{}'.format(i)], 'id': a1}
         a1 = a1 + 1
