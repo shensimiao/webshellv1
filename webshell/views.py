@@ -49,7 +49,7 @@ def srcipt_true(request):
     for i in data1:
         a = {'name': i, 'children': data1['{}'.format(i)]}
         children.append(a)
-    to_action.srcipt_true = children
+    to_action.srcipt_true = data1
     context['data'].append({"name": "srcipt", "children": children})
     # print(json.dumps(context))
     return JsonResponse(data=context)
@@ -59,14 +59,11 @@ def s_ture(request):
     true = to_action.srcipt_true
     ids = to_action.ids
     print(ids)
-    context = {}
-    if ids['srciptid']:
-        true1 = str(true)
-        true2 = true1.replace("'id': %d}" % (ids['srciptid']),
-                              "'id': %d, 'disabled': True}" % (ids['srciptid']))
-        true2 = eval(true2)
-        print(true2)
-        context = {"data": [{"name": "srcipt", "children": true2}]}
+    context = {'data': []}
+    if ids['device_type']:
+        for i in true:
+            if ids['device_type'].capitalize() == i.capitalize():
+                context['data'].append({"name": "srcipt", "children": [{'name': i, 'children': true['i']}]})
     print(context)
     return JsonResponse(data=context)
 
