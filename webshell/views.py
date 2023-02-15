@@ -63,7 +63,7 @@ def s_ture(request):
     if ids['device_type']:
         for i in true:
             if ids['device_type'].capitalize() == i.capitalize():
-                context['data'].append({"name": "srcipt", "children": [{'name': i, 'children': true['i']}]})
+                context['data'].append({"name": "srcipt", "children": [{'name': i, 'children': true['{}'.format(i)]}]})
     print(context)
     return JsonResponse(data=context)
 
