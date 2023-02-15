@@ -1,6 +1,6 @@
 import json
 import os
-
+import requests
 import django
 
 import os, django
@@ -103,229 +103,42 @@ import paramiko
 #
 #
 # action_ssh_passwd()
+jsond = '''HKG1-SPT1-CNO mtr 45.61.225.1
+Start: Wed Feb 15 16:20:52 2023
+HOST: HKG1-SPT1-CNO               Loss%   Snt   Last   Avg  Best  Wrst StDev
+  1.|-- gateway                   30.0%    10    1.4   0.4   0.2   1.4   0.4
+  2.|-- ae10-v962.vr-dsr103-glo1.  0.0%    10    1.2   1.2   0.9   1.8   0.0
+  3.|-- lt-0-2023.ls-cr3-he1.jnr1  0.0%    10    1.0   6.6   0.9  56.5  17.5
+  4.|-- ve131.core2.hkg1.he.net   90.0%    10    2.1   2.1   2.1   2.1   0.0
+  5.|-- 100ge0-76.core3.lax2.he.n 80.0%    10  138.8 140.3 138.8 141.7   2.0
+  6.|-- port-channel8.core2.lax1.  0.0%    10  142.0 139.7 138.8 142.0   0.9
+  7.|-- 64.71.131.74               0.0%    10  138.8 142.3 138.5 174.6  11.3
+  8.|-- 172.16.98.98               0.0%    10  138.7 143.6 138.6 187.5  15.4
+  9.|-- 45.61.225.1                0.0%    10  140.4 140.1 139.5 142.6   0.7'''
+test = jsond.splitlines()
+test1 = []
 
-jsond = {
-    "data": [
+print(test1)
+jsona = {
+    "attachments": [
         {
-            "name": "srcipt",
-            "children": [
+            "blocks": [
                 {
-                    "name": "Vyos",
-                    "children": [
-                        {
-                            "name": "查看全局配置",
-                            "id": 1
-                        },
-                        {
-                            "name": "查看接口",
-                            "id": 3
-                        },
-                        {
-                            "name": "查看指定路由详细信息",
-                            "id": 4
-                        },
-                        {
-                            "name": "查看OSPF路由表",
-                            "id": 5
-                        },
-                        {
-                            "name": "查看OSPF邻居状态",
-                            "id": 6
-                        },
-                        {
-                            "name": "查看BGP汇总信息",
-                            "id": 7
-                        },
-                        {
-                            "name": "查看指定BGP路由详细信息",
-                            "id": 8
-                        },
-                        {
-                            "name": "查看BGP邻居发送过来的路由",
-                            "id": 9
-                        },
-                        {
-                            "name": "使用指定接口IP ping目的地址",
-                            "id": 10
-                        },
-                        {
-                            "name": "使用指定源IP traceroute 目标IP",
-                            "id": 11
-                        },
-                        {
-                            "name": "查看日志",
-                            "id": 12
-                        },
-                        {
-                            "name": "创建新用户",
-                            "id": 44
-                        }
-                    ]
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": " w"
+                    }
                 },
-                {
-                    "name": "cisco",
-                    "children": [
-                        {
-                            "name": "show run",
-                            "id": 2
-                        },
-                        {
-                            "name": "查看全局配置",
-                            "id": 24
-                        },
-                        {
-                            "name": "查看接口描述",
-                            "id": 25
-                        },
-                        {
-                            "name": "查看指定路由详细信息",
-                            "id": 26
-                        },
-                        {
-                            "name": "查看OSPF路由表",
-                            "id": 27
-                        },
-                        {
-                            "name": "查看OSPF邻居状态",
-                            "id": 28
-                        },
-                        {
-                            "name": "查看BGP汇总信息",
-                            "id": 29
-                        },
-                        {
-                            "name": "查看指定BGP路由详细信息",
-                            "id": 30
-                        },
-                        {
-                            "name": "查看BGP邻居发送过来的路由",
-                            "id": 31
-                        },
-                        {
-                            "name": "ping",
-                            "id": 32
-                        },
-                        {
-                            "name": "traceroute",
-                            "id": 33
-                        },
-                        {
-                            "name": "查看日志",
-                            "id": 34
-                        },
-                        {
-                            "name": "创建新用户",
-                            "id": 46
-                        },
-                        {
-                            "name": "测试用例",
-                            "id": 47
-                        }
-                    ]
-                },
-                {
-                    "name": "juniper",
-                    "children": [
-                        {
-                            "name": "查看全局配置",
-                            "id": 13
-                        },
-                        {
-                            "name": "查看接口简要信息",
-                            "id": 14
-                        },
-                        {
-                            "name": "查看指定路由详细信息",
-                            "id": 15
-                        },
-                        {
-                            "name": "查看指定路由详细信息",
-                            "id": 16
-                        },
-                        {
-                            "name": "查看OSPF路由表",
-                            "id": 17
-                        },
-                        {
-                            "name": "查看BGP汇总信息",
-                            "id": 18
-                        },
-                        {
-                            "name": "查看指定BGP路由信息",
-                            "id": 19
-                        },
-                        {
-                            "name": "查看BGP邻居发送过来的路由",
-                            "id": 20
-                        },
-                        {
-                            "name": "使用指定源IP ping 目标IP",
-                            "id": 21
-                        },
-                        {
-                            "name": "使用指定源IP traceroute 目标IP",
-                            "id": 22
-                        },
-                        {
-                            "name": "查看日志并过滤显示指定内容",
-                            "id": 23
-                        },
-                        {
-                            "name": "创建新用户",
-                            "id": 45
-                        }
-                    ]
-                },
-                {
-                    "name": "ROS",
-                    "children": [
-                        {
-                            "name": "查看全局配置",
-                            "id": 35
-                        },
-                        {
-                            "name": "查看网卡接口",
-                            "id": 36
-                        },
-                        {
-                            "name": "查看IP",
-                            "id": 37
-                        },
-                        {
-                            "name": "查看ARP表并模糊过滤指定mac地址",
-                            "id": 38
-                        },
-                        {
-                            "name": "查看IP表并模糊过滤指定接口",
-                            "id": 39
-                        },
-                        {
-                            "name": "查看Route表并模糊过滤指定IP地址",
-                            "id": 40
-                        },
-                        {
-                            "name": "使用Traceroute工具",
-                            "id": 41
-                        },
-                        {
-                            "name": "使用Ping工具",
-                            "id": 42
-                        },
-                        {
-                            "name": "查看日志",
-                            "id": 43
-                        }
-                    ]
-                }
             ]
         }
     ]
 }
-print(type(jsond))
-ds = str(jsond)
-# print(ds)
-# print(ds.find("'id': 41"))
-dt = ds.replace("'id': 2}", "'id': 2, 'disable': True}")
-print(dt)
-dt = eval(dt)
-print(json.dumps(dt))
+for i in test:
+    jsona['attachments'][0]['blocks'].append({"type": "section", "text": {"type": "plain_text", "text": i.strip()}})
+
+print(jsona)
+url = 'https://hooks.slack.com/services/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'
+m = json.dumps(jsona, sort_keys=True, indent=2, separators=(',', ':'))
+res = requests.post(url, data=m)
+print(res)
