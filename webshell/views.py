@@ -56,8 +56,8 @@ def srcipt_true(request):
 
 
 def s_ture(request):
+    ids = json.loads(request.body.decode())
     true = to_action.srcipt_true
-    ids = to_action.ids
     print(ids)
     context = {'data': []}
     if ids['device_type']:
