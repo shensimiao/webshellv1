@@ -153,9 +153,9 @@ def to_reson(request):
     # print(input_data)
     context = {'ret_data2': []}
     # print(data['srcipt']['name'])
-    for i in data['srciptid']:
+    if data['srciptid']:
         # print(i)
-        a = models.Script.objects.get(id=i).script_reson
+        a = models.Script.objects.get(id=data['srciptid']).script_reson
         for b in input_data:
             if '<{}>'.format(b) in a:
                 a = a.replace('<{}>'.format(b), '{}'.format(input_data['{}'.format(b)]))
