@@ -26,8 +26,10 @@ def device_true(request):
         if i.device_type in data:
             data['{}'.format(i.device_type)].append({"name": "{}".format(i.device_name), "id": i.id})
     children = []
+    a1 = 0
     for i in data:
-        a = {'name': i, 'children': data['{}'.format(i)]}
+        a = {'name': i, 'children': data['{}'.format(i)], 'id': a1}
+        a1 = ++1
         children.append(a)
     to_action.device_true = children
     context['data'].append({"name": "device", "children": children})
