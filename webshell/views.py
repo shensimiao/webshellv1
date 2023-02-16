@@ -186,6 +186,7 @@ def to_data(request):
     # data = request.POST.get('data')
     data = json.loads(request.body.decode())
     data1 = data['deviceid']
+    print(data)
     passwd = []
     login = []
     user = []
