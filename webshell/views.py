@@ -201,11 +201,12 @@ def to_data(request):
         dtype.append(a.device_type)
         if int(models.Setting.objects.get(setting_name='is_key').setting_value) == 0:
             passwd.append(a.device_passwd)
-    # print(reson)
-    # print(login)
-    # print(user)
-    # print(port)
-    # print(passwd)
+    print(reson)
+    print(login)
+    print(user)
+    print(port)
+    print(passwd)
+    print(dtype)
     ret_data = to_action.action_ssh(login=login, user=user, passwd=passwd, dtype=dtype,
                                     port=port, script_reson=reson)
     # print('给前端', ret_data)
