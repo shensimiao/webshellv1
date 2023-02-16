@@ -116,5 +116,5 @@ class Action:
             print('error1:', err)
         except TimeoutError as err:
             print('error2:', err)
-        print(self.ret)
+        # print(self.ret)
         return self.ret
