@@ -14,19 +14,25 @@ class Action:
         self.ids = None
 
     def action_ssh(self, login: list, user: list, port: list, dtype: list, script_reson: list, passwd: list = None):
+        data = {}
         if self.is_key == 1:
             for i in range(0, len(login)):
                 ret = self.action_ssh_key(login=login[i], user=user[i], port=port[i], cmds=script_reson)
-                return ret
+                data = {'{}'.format(login[i]): ret}
+            return data
         if self.is_key == 0:
+            if dtype[0] == 'Vyos':
+                for i in range(0, len(login)):
+
+                        ret = self.action_ssh_netmiko(login=login[i], user=user[i],
+                                                      port=port[i], cmds=script_reson, password=passwd[i])
+                        data = {'{}'.format(login[i]): ret}
+                return data
             for i in range(0, len(login)):
-                if dtype[i] == 'Vyos':
-                    ret = self.action_ssh_netmiko(login=login[i], user=user[i],
-                                                  port=port[i], cmds=script_reson, password=passwd[i])
-                    return ret
                 ret = self.action_ssh_passwd(login=login[i], user=user[i],
                                              port=port[i], cmds=script_reson, passwd=passwd[i])
-                return ret
+                data = {'{}'.format(login[i]): ret}
+            return data
 
     def action_ssh_netmiko(self, login, user, password, port, cmds):
         try:
