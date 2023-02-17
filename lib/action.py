@@ -69,7 +69,7 @@ class Action:
         except Exception as err:
             print('error1:', err)
             ret.append('error1:{}'.format(err))
-        # print(self.ret)
+        print(ret)
         return ret
 
     def action_ssh_key(self, login, user, cmds, port: int = 22):
@@ -150,6 +150,8 @@ class Action:
         except Exception as err:
             print('error1:', err)
             ret.append('error1:{}'.format(err))
+        except Exception (client) as err:
+
 
         # print(self.ret)
         return ret
