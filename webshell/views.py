@@ -194,14 +194,17 @@ def to_data(request):
     dtype = []
     reson = to_action.limit_data
     print(reson)
-    for i in data1:
-        a = models.Device.objects.get(id=i)
-        login.append(a.device_host)
-        user.append(a.device_user)
-        port.append(a.device_port)
-        dtype.append(a.device_type)
-        if int(models.Setting.objects.get(setting_name='is_key').setting_value) == 0:
-            passwd.append(a.device_passwd)
+    try:
+        for i in data1:
+            a = models.Device.objects.get(id=i)
+            login.append(a.device_host)
+            user.append(a.device_user)
+            port.append(a.device_port)
+            dtype.append(a.device_type)
+            if int(models.Setting.objects.get(setting_name='is_key').setting_value) == 0:
+                passwd.append(a.device_passwd)
+    except:
+        return HttpResponse("数据不存在")
     print(reson)
     print(login)
     print(user)
