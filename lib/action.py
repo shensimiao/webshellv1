@@ -77,6 +77,8 @@ class Action:
             ret.append('error1:{}'.format(err))
             print(ret)
             return ret
+        except:
+            pass
         print(ret)
         return ret
 
