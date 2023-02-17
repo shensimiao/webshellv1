@@ -24,10 +24,9 @@ class Action:
         if self.is_key == 0:
             if dtype[0] == 'Vyos':
                 for i in range(0, len(login)):
-
-                        ret = self.action_ssh_netmiko(login=login[i], user=user[i],
-                                                      port=port[i], cmds=script_reson, password=passwd[i])
-                        data = {'{}'.format(login[i]): ret}
+                    ret = self.action_ssh_netmiko(login=login[i], user=user[i],
+                                                  port=port[i], cmds=script_reson, password=passwd[i])
+                    data = {'{}'.format(login[i]): ret}
                 print(data)
                 return data
             for i in range(0, len(login)):
@@ -57,10 +56,18 @@ class Action:
                 self.ret.append(output)
                 # print(cmd, output)
             conn.close_session_log()
-        except Exception as err:
-            print(err)
         except TimeoutError as err:
-            print(err)
+            print('error2:', err)
+            self.ret.append('error2:' + err.strerror)
+        except OSError as err:
+            print('error3:', err)
+            self.ret.append('error3:' + err.strerror)
+        except paramiko.ssh_exception.SSHException as err:
+            print('error4:', err)
+            self.ret.append('error4:{}'.format(err))
+        except Exception as err:
+            print('error1:', err)
+            self.ret.append('error1:{}'.format(err))
         # print(self.ret)
         return self.ret
 
@@ -84,11 +91,19 @@ class Action:
                 self.ret.append(out.read().decode('utf-8'))
                 print(cmd, out.read())
             ssh.close()
-        except Exception as err:
-            print(err)
         except TimeoutError as err:
-            print(err)
-        # print(self.ret)
+            print('error2:', err)
+            self.ret.append('error2:' + err.strerror)
+        except OSError as err:
+            print('error3:', err)
+            self.ret.append('error3:' + err.strerror)
+        except paramiko.ssh_exception.SSHException as err:
+            print('error4:', err)
+            self.ret.append('error4:{}'.format(err))
+        except Exception as err:
+            print('error1:', err)
+            self.ret.append('error1:{}'.format(err))
+
         return self.ret
 
     # def ret_data(self, data):
@@ -121,9 +136,18 @@ class Action:
                     self.ret.append(out.read().decode('utf-8'))
                     # print(data[i])
             ssh.close()
-        except Exception as err:
-            print('error1:', err)
         except TimeoutError as err:
             print('error2:', err)
+            self.ret.append('error2:' + err.strerror)
+        except OSError as err:
+            print('error3:', err)
+            self.ret.append('error3:' + err.strerror)
+        except paramiko.ssh_exception.SSHException as err:
+            print('error4:', err)
+            self.ret.append('error4:{}'.format(err))
+        except Exception as err:
+            print('error1:', err)
+            self.ret.append('error1:{}'.format(err))
+
         # print(self.ret)
         return self.ret
