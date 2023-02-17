@@ -103,42 +103,11 @@ import paramiko
 #
 #
 # action_ssh_passwd()
-jsond = '''HKG1-SPT1-CNO mtr 45.61.225.1
-Start: Wed Feb 15 16:20:52 2023
-HOST: HKG1-SPT1-CNO               Loss%   Snt   Last   Avg  Best  Wrst StDev
-  1.|-- gateway                   30.0%    10    1.4   0.4   0.2   1.4   0.4
-  2.|-- ae10-v962.vr-dsr103-glo1.  0.0%    10    1.2   1.2   0.9   1.8   0.0
-  3.|-- lt-0-2023.ls-cr3-he1.jnr1  0.0%    10    1.0   6.6   0.9  56.5  17.5
-  4.|-- ve131.core2.hkg1.he.net   90.0%    10    2.1   2.1   2.1   2.1   0.0
-  5.|-- 100ge0-76.core3.lax2.he.n 80.0%    10  138.8 140.3 138.8 141.7   2.0
-  6.|-- port-channel8.core2.lax1.  0.0%    10  142.0 139.7 138.8 142.0   0.9
-  7.|-- 64.71.131.74               0.0%    10  138.8 142.3 138.5 174.6  11.3
-  8.|-- 172.16.98.98               0.0%    10  138.7 143.6 138.6 187.5  15.4
-  9.|-- 45.61.225.1                0.0%    10  140.4 140.1 139.5 142.6   0.7'''
-test = jsond.splitlines()
-test1 = []
 
-print(test1)
-jsona = {
-    "attachments": [
-        {
-            "blocks": [
-                {
-                    "type": "header",
-                    "text": {
-                        "type": "plain_text",
-                        "text": " w"
-                    }
-                },
-            ]
-        }
-    ]
-}
-for i in test:
-    jsona['attachments'][0]['blocks'].append({"type": "section", "text": {"type": "plain_text", "text": i.strip()}})
+a = {}
+b = [1,2,3]
+c = [4,5,6]
+for i in b:
+    a['{}'.format(i)] = c
 
-print(jsona)
-url = 'https://hooks.slack.com/services/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'
-m = json.dumps(jsona, sort_keys=True, indent=2, separators=(',', ':'))
-res = requests.post(url, data=m)
-print(res)
+print(a)
