@@ -88,10 +88,10 @@ class Action:
             ssh.close()
         except Exception as err:
             print(err)
-            return err
+            return err.args
         except TimeoutError as err:
             print(err)
-            return err
+            return err.errno
         # print(self.ret)
         return self.ret
 
@@ -127,9 +127,9 @@ class Action:
             ssh.close()
         except Exception as err:
             print('error1:', err)
-            return err
+            return err.args
         except TimeoutError as err:
             print('error2:', err)
-            return err
+            return err.errno
         # print(self.ret)
         return self.ret
