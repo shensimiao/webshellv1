@@ -19,6 +19,7 @@ class Action:
             for i in range(0, len(login)):
                 ret = self.action_ssh_key(login=login[i], user=user[i], port=port[i], cmds=script_reson)
                 data = {'{}'.format(login[i]): ret}
+            print(data)
             return data
         if self.is_key == 0:
             if dtype[0] == 'Vyos':
@@ -27,11 +28,13 @@ class Action:
                         ret = self.action_ssh_netmiko(login=login[i], user=user[i],
                                                       port=port[i], cmds=script_reson, password=passwd[i])
                         data = {'{}'.format(login[i]): ret}
+                print(data)
                 return data
             for i in range(0, len(login)):
                 ret = self.action_ssh_passwd(login=login[i], user=user[i],
                                              port=port[i], cmds=script_reson, passwd=passwd[i])
                 data = {'{}'.format(login[i]): ret}
+            print(data)
             return data
 
     def action_ssh_netmiko(self, login, user, password, port, cmds):
@@ -52,13 +55,13 @@ class Action:
                     continue
                 output = conn.send_command_timing(command_string=cmd, delay_factor=3)
                 self.ret.append(output)
-                print(cmd, output)
+                # print(cmd, output)
             conn.close_session_log()
         except Exception as err:
             print(err)
         except TimeoutError as err:
             print(err)
-        print(self.ret)
+        # print(self.ret)
         return self.ret
 
     def action_ssh_key(self, login, user, cmds, port: int = 22):
@@ -85,7 +88,7 @@ class Action:
             print(err)
         except TimeoutError as err:
             print(err)
-        print(self.ret)
+        # print(self.ret)
         return self.ret
 
     # def ret_data(self, data):
@@ -116,7 +119,7 @@ class Action:
                 for i in range(0, len(data)):
                     _, out, _ = ssh.exec_command(data[i])
                     self.ret.append(out.read().decode('utf-8'))
-                    print(data[i])
+                    # print(data[i])
             ssh.close()
         except Exception as err:
             print('error1:', err)
