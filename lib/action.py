@@ -37,6 +37,7 @@ class Action:
             return data
 
     def action_ssh_netmiko(self, login, user, password, port, cmds):
+        ret =[]
         try:
             conn = ConnectHandler(device_type='vyos',
                                   host=login,
@@ -49,30 +50,31 @@ class Action:
                 if ',' in cmd:
                     for i in cmd.split(","):
                         output = conn.send_command_timing(command_string=i, delay_factor=3)
-                        self.ret.append(output)
+                        ret.append(output)
                         print(i, output)
                     continue
                 output = conn.send_command_timing(command_string=cmd, delay_factor=3)
-                self.ret.append(output)
+                ret.append(output)
                 # print(cmd, output)
             conn.close_session_log()
         except TimeoutError as err:
             print('error2:', err)
-            self.ret.append('error2:' + err.strerror)
+            ret.append('error2:' + err.strerror)
         except OSError as err:
             print('error3:', err)
-            self.ret.append('error3:' + err.strerror)
+            ret.append('error3:' + err.strerror)
         except paramiko.ssh_exception.SSHException as err:
             print('error4:', err)
-            self.ret.append('error4:{}'.format(err))
+            ret.append('error4:{}'.format(err))
         except Exception as err:
             print('error1:', err)
-            self.ret.append('error1:{}'.format(err))
+            ret.append('error1:{}'.format(err))
         # print(self.ret)
-        return self.ret
+        return ret
 
     def action_ssh_key(self, login, user, cmds, port: int = 22):
         # 负责执行
+        ret = []
         private_key = paramiko.RSAKey.from_private_key_file('/root/.ssh/ipflowser_id_rsa')
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -93,18 +95,18 @@ class Action:
             ssh.close()
         except TimeoutError as err:
             print('error2:', err)
-            self.ret.append('error2:' + err.strerror)
+            ret.append('error2:' + err.strerror)
         except OSError as err:
             print('error3:', err)
-            self.ret.append('error3:' + err.strerror)
+            ret.append('error3:' + err.strerror)
         except paramiko.ssh_exception.SSHException as err:
             print('error4:', err)
-            self.ret.append('error4:{}'.format(err))
+            ret.append('error4:{}'.format(err))
         except Exception as err:
             print('error1:', err)
-            self.ret.append('error1:{}'.format(err))
+            ret.append('error1:{}'.format(err))
 
-        return self.ret
+        return ret
 
     # def ret_data(self, data):
     #     self.ret = data
@@ -116,7 +118,7 @@ class Action:
         self.input_data = None
 
     def action_ssh_passwd(self, login, user, passwd, cmds, port: int = 22):
-        self.ret = []
+        ret = []
         print(login, user, passwd, cmds, port)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -129,25 +131,25 @@ class Action:
                     _, out, _ = ssh.exec_command(cmd)
                     if 'configure' in cmd:
                         continue
-                    self.ret.append(out.read().decode('utf-8'))
+                    ret.append(out.read().decode('utf-8'))
                 data = cmd.split(',')
                 for i in range(0, len(data)):
                     _, out, _ = ssh.exec_command(data[i])
-                    self.ret.append(out.read().decode('utf-8'))
+                    ret.append(out.read().decode('utf-8'))
                     # print(data[i])
             ssh.close()
         except TimeoutError as err:
             print('error2:', err)
-            self.ret.append('error2:' + err.strerror)
+            ret.append('error2:' + err.strerror)
         except OSError as err:
             print('error3:', err)
-            self.ret.append('error3:' + err.strerror)
+            ret.append('error3:' + err.strerror)
         except paramiko.ssh_exception.SSHException as err:
             print('error4:', err)
-            self.ret.append('error4:{}'.format(err))
+            ret.append('error4:{}'.format(err))
         except Exception as err:
             print('error1:', err)
-            self.ret.append('error1:{}'.format(err))
+            ret.append('error1:{}'.format(err))
 
         # print(self.ret)
-        return self.ret
+        return ret
