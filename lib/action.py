@@ -60,15 +60,23 @@ class Action:
         except TimeoutError as err:
             print('error2:', err)
             ret.append('error2:' + err.strerror)
+            print(ret)
+            return ret
         except OSError as err:
             print('error3:', err)
             ret.append('error3:' + err.strerror)
+            print(ret)
+            return ret
         except paramiko.ssh_exception.SSHException as err:
             print('error4:', err)
             ret.append('error4:{}'.format(err))
+            print(ret)
+            return ret
         except Exception as err:
             print('error1:', err)
             ret.append('error1:{}'.format(err))
+            print(ret)
+            return ret
         print(ret)
         return ret
 
