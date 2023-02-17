@@ -59,10 +59,8 @@ class Action:
             conn.close_session_log()
         except Exception as err:
             print(err)
-            return err
         except TimeoutError as err:
             print(err)
-            return err
         # print(self.ret)
         return self.ret
 
@@ -88,10 +86,8 @@ class Action:
             ssh.close()
         except Exception as err:
             print(err)
-            return err.args
         except TimeoutError as err:
             print(err)
-            return err.errno
         # print(self.ret)
         return self.ret
 
@@ -127,9 +123,7 @@ class Action:
             ssh.close()
         except Exception as err:
             print('error1:', err)
-            return err.args
         except TimeoutError as err:
             print('error2:', err)
-            return err.errno
         # print(self.ret)
         return self.ret
