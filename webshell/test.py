@@ -108,8 +108,5 @@ a = {}
 b = [1, 2, 3]
 c = [4, 5, 6]
 v = '65165'
-for i in b:
-    a['{}'.format(i)] = 'wddd\n' + v
-
-print(a)
-
+b.insert(0,v)
+print(b)

@@ -18,7 +18,7 @@ class Action:
         if self.is_key == 1:
             for i in range(0, len(login)):
                 ret = self.action_ssh_key(login=login[i], user=user[i], port=port[i], cmds=script_reson)
-                data['{}'.format(login[i])] = ret
+                data['{}'.format(login[i])] = ret.insert(0, '{}\n\n'.format(login[i]))
             # print(data)
             return data
         if self.is_key == 0:
@@ -26,14 +26,14 @@ class Action:
                 for i in range(0, len(login)):
                     ret = self.action_ssh_netmiko(login=login[i], user=user[i],
                                                   port=port[i], cmds=script_reson, password=passwd[i])
-                    print('{}'.format(login[i]) + str(ret))
-                    data['{}'.format(login[i])] = '{}:\n\n'.format(login[i]) + str(ret)
+                    # print('{}'.format(login[i]) + str(ret))
+                    data['{}'.format(login[i])] = ret.insert(0, '{}\n\n'.format(login[i]))
 
                 return data
             for i in range(0, len(login)):
                 ret = self.action_ssh_passwd(login=login[i], user=user[i],
                                              port=port[i], cmds=script_reson, passwd=passwd[i])
-                data['{}'.format(login[i])] = ret
+                data['{}'.format(login[i])] = ret.insert(0, '{}\n\n'.format(login[i]))
             # print(data)
             return data
 
