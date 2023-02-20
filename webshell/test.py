@@ -105,9 +105,11 @@ import paramiko
 # action_ssh_passwd()
 
 a = {}
-b = [1,2,3]
-c = [4,5,6]
+b = [1, 2, 3]
+c = [4, 5, 6]
+v = '65165'
 for i in b:
-    a['{}'.format(i)] = c
+    a['{}'.format(i)] = 'wddd\n' + v
 
 print(a)
+

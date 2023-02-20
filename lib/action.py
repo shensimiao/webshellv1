@@ -27,7 +27,7 @@ class Action:
                     ret = self.action_ssh_netmiko(login=login[i], user=user[i],
                                                   port=port[i], cmds=script_reson, password=passwd[i])
                     print('{}'.format(login[i]) + str(ret))
-                    data['{}'.format(login[i])] = ret
+                    data['{}'.format(login[i])] = '{}:\n\n'.format(login[i]) + str(ret)
 
                 return data
             for i in range(0, len(login)):
