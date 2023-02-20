@@ -18,10 +18,10 @@ class Action:
         if self.is_key == 1:
             for i in range(0, len(login)):
                 ret = self.action_ssh_key(login=login[i], user=user[i], port=port[i], cmds=script_reson)
-                print(str(ret))
-                reta = ret.insert(0, '{}\r\n'.format(login[i]))
-                print(str(reta))
-                data['{}'.format(login[i])] = reta
+                # print(str(ret))
+                # reta = ret.insert(0, '{}\r\n'.format(login[i]))
+                # print(str(reta))
+                data['{}'.format(login[i])] = ret
             # print(data)
             return data
         if self.is_key == 0:
@@ -29,25 +29,26 @@ class Action:
                 for i in range(0, len(login)):
                     ret = self.action_ssh_netmiko(login=login[i], user=user[i],
                                                   port=port[i], cmds=script_reson, password=passwd[i])
-                    print(str(ret))
-                    reta = ['{}\r\n'.format(login[i])].extend(ret)
-                    print(str(reta))
-                    data['{}'.format(login[i])] = reta
+                    # print(str(ret))
+                    # reta = ['{}\r\n'.format(login[i])].extend(ret)
+                    # print(str(reta))
+                    data['{}'.format(login[i])] = ret
 
                 return data
             for i in range(0, len(login)):
                 ret = self.action_ssh_passwd(login=login[i], user=user[i],
                                              port=port[i], cmds=script_reson, passwd=passwd[i])
-                print(str(ret))
-                reta = ['{}\r\n'.format(login[i])].extend(ret)
-                print(str(reta))
-                data['{}'.format(login[i])] = reta
+                # print(str(ret))
+                # reta = ['{}\r\n'.format(login[i])].extend(ret)
+                # print(str(reta))
+                data['{}'.format(login[i])] = ret
             # print(data)
             return data
 
     def action_ssh_netmiko(self, login, user, password, port, cmds):
         ret = []
         try:
+            ret.append(login+'\r\n')
             conn = ConnectHandler(device_type='vyos',
                                   host=login,
                                   username=user,
@@ -98,6 +99,7 @@ class Action:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
+            ret.append(login+'\r\n')
             ssh.connect(hostname=login, username=user, pkey=private_key,
                         port=port, look_for_keys=False)
             # ssh_shell = ssh.invoke_shell()
@@ -142,6 +144,7 @@ class Action:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
+            ret.append(login+'\r\n')
             ssh.connect(hostname=login, username=user, password=passwd,
                         port=port, look_for_keys=False)
             # ssh_shell = ssh.invoke_shell()
