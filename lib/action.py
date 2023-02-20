@@ -30,7 +30,7 @@ class Action:
                     ret = self.action_ssh_netmiko(login=login[i], user=user[i],
                                                   port=port[i], cmds=script_reson, password=passwd[i])
                     print(str(ret))
-                    reta = ret.insert(0, '{}\r\n'.format(login[i]))
+                    reta = ['{}\r\n'.format(login[i])].extend(ret)
                     print(str(reta))
                     data['{}'.format(login[i])] = reta
 
@@ -39,7 +39,7 @@ class Action:
                 ret = self.action_ssh_passwd(login=login[i], user=user[i],
                                              port=port[i], cmds=script_reson, passwd=passwd[i])
                 print(str(ret))
-                reta = ret.insert(0, '{}\r\n'.format(login[i]))
+                reta = ['{}\r\n'.format(login[i])].extend(ret)
                 print(str(reta))
                 data['{}'.format(login[i])] = reta
             # print(data)
