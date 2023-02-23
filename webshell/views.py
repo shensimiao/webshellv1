@@ -184,22 +184,22 @@ def clean_all(request):
 def opaiai(request):
     data = json.loads(request.body.decode())
     context = {}
-    try:
-        openai.api_key = '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'
-        prompt = data['reason']
-        model = "text-davinci-003"
-        temperature = 0.5
-        response = openai.Completion.create(
-            engine=model,
-            prompt=prompt,
-            max_tokens=999,
-            temperature=temperature,
-        )
-        time.sleep(1)
-        context['data'] = response.choices[0].text
-        context['status'] = 200
-    except:
-        context['status'] = 400
+    # try:
+    openai.api_key = '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'
+    prompt = data['reason']
+    model = "text-davinci-003"
+    temperature = 0.5
+    response = openai.Completion.create(
+        engine=model,
+        prompt=prompt,
+        max_tokens=999,
+        temperature=temperature,
+    )
+    time.sleep(1)
+    context['data'] = response.choices[0].text
+    context['status'] = 200
+    # except:
+    #     context['status'] = 400
     return JsonResponse(data=context)
 
 
