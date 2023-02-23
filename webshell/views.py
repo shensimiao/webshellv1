@@ -182,7 +182,7 @@ def clean_all(request):
 #     return JsonResponse(data=context)
 
 def opaiai(request):
-    data = json.loads(request.body.decode())
+    data = json.loads(request.body.decode('utf-8'))
     context = {}
     # try:
     openai.api_key = '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'
