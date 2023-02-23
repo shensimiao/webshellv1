@@ -185,7 +185,7 @@ def opaiai(request):
     data = json.loads(request.body.decode('utf-8'))
     context = {}
     # try:
-    openai.api_key = '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'
+    openai.api_key = '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'
     prompt = data['reason']
     model = "text-davinci-003"
     temperature = 0.5
@@ -196,7 +196,8 @@ def opaiai(request):
         temperature=temperature,
     )
     time.sleep(1)
-    context['data'] = response.choices[0].text
+    a = response.choices[0].text
+    context['data'] = a
     context['status'] = 200
     # except:
     #     context['status'] = 400
