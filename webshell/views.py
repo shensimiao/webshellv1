@@ -73,52 +73,7 @@ def s_ture(request):
 
 def index(request):
     context = {'hello': 'Hello World!'}
-    # print(request.method)
-    # if request.method == 'POST':
-    #     # 1.3 获取post除文件外所有数据 -->dict
-    #     print(request.POST)
-    #     # 1.4 获取
-    #     print(request.POST.getlist('ip'))
-    # context['device'] = deviceOrm.all()
-    # context['script'] = ScriptOrm.all()
-    # data = {}
-    # for i in models.device.objects.all():
-    #     if i.device_type not in data:
-    #         data['{}'.format(i.device_type)] = []
-    #         data['{}'.format(i.device_type)].append([i.id, i.device_name])
-    #         continue
-    #     if i.device_type in data:
-    #         data['{}'.format(i.device_type)].append([i.id, i.device_name])
-    # data1 = {}
-    # for i in models.Script.objects.all():
-    #     if i.device_type not in data1:
-    #         data1['{}'.format(i.device_type)] = []
-    #         data1['{}'.format(i.device_type)].append([i.id, i.script_name])
-    #         continue
-    #     if i.device_type in data1:
-    #         data1['{}'.format(i.device_type)].append([i.id, i.script_name])
-    # context['device'] = data
-    # print(data)
-    # print(data1)
-    # context['script'] = data1
     return render(request, 'index.html', context)
-
-
-# def test(request):
-#     context = {}
-#     print(request.method)
-#     if request.method == 'POST':
-#         # 1.3 获取post除文件外所有数据 -->dict
-#         print(request.POST)
-#         # 1.4 获取
-#         print(request.POST.getlist('ip'))
-#     context['hello'] = "'Hello World!'"
-#     # context['script'] = ScriptOrm.all()
-#     list1 = [{'id': 1, 'type': 2, 'c': 3}, {'id': 11, 'type': 12, 'c': 31}]
-#     context['device_num'] = len(list1)
-#     context['device'] = json.dumps(list1, indent=2)
-#     context['script'] = [{'id': 10, 'type': 20, 'res': 30}, {'id': 11, 'type': 12, 'res': 31}]
-#     return JsonResponse(data=context)
 
 
 def create_input(request):
@@ -174,12 +129,6 @@ def clean_all(request):
 
     return JsonResponse(data=context)
 
-
-# def update_reson(request):
-#     data = json.loads(request.body.decode())
-#     to_action.limit_data = data['srcipt']
-#     context = {"status": 200}
-#     return JsonResponse(data=context)
 
 def opaiai(request):
     data = json.loads(request.body.decode('utf-8'))
