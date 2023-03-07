@@ -17,6 +17,7 @@ to_action = Action()
 
 
 def device_true(request):
+    # 设备生成树
     context = {"data": []}
     data = {}
     for i in models.Device.objects.all():
@@ -39,6 +40,7 @@ def device_true(request):
 
 
 def srcipt_true(request):
+    # 脚本生成树
     context = {"data": []}
     data1 = {}
     for i in models.Script.objects.all():
@@ -59,6 +61,7 @@ def srcipt_true(request):
 
 
 def s_ture(request):
+    # 内容处理
     ids = json.loads(request.body.decode())
     true = to_action.srcipt_true
     print(ids)
@@ -72,11 +75,13 @@ def s_ture(request):
 
 
 def index(request):
+    # 主页
     context = {'hello': 'Hello World!'}
     return render(request, 'index.html', context)
 
 
 def create_input(request):
+    # 创建输入框对应的tag
     data = json.loads(request.body.decode())
     pattern = re.compile(r'<(.*?)>')
     to_action.ids = data
@@ -97,6 +102,7 @@ def create_input(request):
 
 
 def to_reson(request):
+    # 生成内容
     # print(request.method)
     data = json.loads(request.body.decode())
     input_data = to_action.input_data
@@ -124,6 +130,7 @@ def to_reson(request):
 
 
 def clean_all(request):
+    # 清理缓存
     to_action.clean_data()
     context = {"status": 200}
 
@@ -131,6 +138,7 @@ def clean_all(request):
 
 
 def opaiai(request):
+    # ai调用
     data = json.loads(request.body.decode('utf-8'))
     context = {}
     # try:
@@ -154,6 +162,7 @@ def opaiai(request):
 
 
 def to_data(request):
+    # 命令执行并返回
     context = {}
     # data = request.POST.get('data')
     data = json.loads(request.body.decode())
